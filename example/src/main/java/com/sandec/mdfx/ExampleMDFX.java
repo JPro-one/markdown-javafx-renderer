@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.commons.io.IOUtils;
@@ -18,10 +20,17 @@ public class ExampleMDFX extends Application {
 
         MDFXNode mdfxNode = new MDFXNode(mdfxTxt);
 
-        ScrollPane root = new ScrollPane(mdfxNode);
+        TextArea textArea = new TextArea(mdfxTxt);
 
-        root.setFitToWidth(true);
-        root.getStylesheets().add("/com/sandec/mdfx/mdfx-default.css");
+        mdfxNode.mdStringProperty.bind(textArea.textProperty());
+
+        ScrollPane content = new ScrollPane(mdfxNode);
+
+        content.setFitToWidth(true);
+        content.getStylesheets().add("/com/sandec/mdfx/mdfx-default.css");
+
+        textArea.setMinWidth(350);
+        HBox root = new HBox(textArea,content);
 
         Scene scene = new Scene(root, 700,700);
 

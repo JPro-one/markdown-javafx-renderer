@@ -346,7 +346,6 @@ class MDFXNodeHelper extends VBox {
 
     public void addText(String text, String wholeText) {
       if(!text.isEmpty()) {
-        System.out.println("text: '" + text + "'");
 
         Text toAdd = new Text(text);
 
