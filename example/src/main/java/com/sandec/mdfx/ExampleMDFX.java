@@ -18,7 +18,12 @@ public class ExampleMDFX extends Application {
 
         String mdfxTxt = IOUtils.toString(getClass().getResourceAsStream("/com/sandec/mdfx/sample.md"), "UTF-8");
 
-        MDFXNode mdfxNode = new MDFXNode(mdfxTxt);
+        //MDFXNode mdfxNode = new MDFXNode(mdfxTxt) {
+        //    @Override
+        //    public boolean showChapter(int[] currentChapter) {
+        //        return currentChapter[1] == 1;
+        //    }
+        //};
 
         TextArea textArea = new TextArea(mdfxTxt);
 

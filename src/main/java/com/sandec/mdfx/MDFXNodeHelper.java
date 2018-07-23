@@ -166,7 +166,9 @@ class MDFXNodeHelper extends VBox {
 
     public void visit(FencedCodeBlock fencedCodeBlock) {
 
-      Label label = new Label(fencedCodeBlock.getNodeName());
+      if(!shouldShowContent()) return;
+
+      Label label = new Label(fencedCodeBlock.getChars().toString());
       label.getStyleClass().add("markdown-codeblock");
       VBox vbox = new VBox(label);
       vbox.getStyleClass().add("markdown-codeblock-box");
@@ -211,6 +213,9 @@ class MDFXNodeHelper extends VBox {
 
 
     public void visit(ListItem listItem) {
+
+      if(!shouldShowContent()) return;
+
       // add new listItem
       VBox oldRoot = root;
 
@@ -238,6 +243,9 @@ class MDFXNodeHelper extends VBox {
     }
 
     public void visit(BulletList bulletList) {
+
+      if(!shouldShowContent()) return;
+
       VBox oldRoot = root;
       root = new VBox();
       oldRoot.getChildren().add(root);
@@ -258,6 +266,8 @@ class MDFXNodeHelper extends VBox {
     }
 
     public void visit(Paragraph paragraph) {
+        if(!shouldShowContent()) return;
+
       List<AttributesNode> atts = AttributesExtension.NODE_ATTRIBUTES.getFrom(document).get(paragraph);
       newParagraph();
       flow.getStyleClass().add("markdown-normal-flow");
@@ -376,7 +386,6 @@ class MDFXNodeHelper extends VBox {
     }
 
     public void visit(TableRow customNode) {
-      System.out.println(customNode.getRowNumber());
       if(customNode.getRowNumber() != 0) {
         gridx = 0;
         gridy += 1;
