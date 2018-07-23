@@ -1,0 +1,57 @@
+
+buildscript {
+  repositories {
+    jcenter()
+
+    maven {
+      url "http://sandec.bintray.com/repo"
+    }
+  }
+
+  dependencies {
+    classpath 'com.sandec.jpro:jpro-plugin-gradle:2018.1.5-SNAPSHOT'
+  }
+}
+
+repositories {
+  jcenter()
+}
+
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+compileJava {
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+}
+
+apply plugin: 'com.sandec.jpro'
+
+
+dependencies {
+  compile 'com.atlassian.commonmark:commonmark:0.10.0'
+  compile 'com.atlassian.commonmark:commonmark-ext-gfm-tables:0.10.0'
+}
+
+
+configure([project(':example')]) {
+  apply plugin: 'java'
+  apply plugin: 'application'
+  apply plugin: 'com.sandec.jpro'
+
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    compile rootProject
+
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+  }
+
+  mainClassName = 'com.sandec.mdfx.ExampleMDFX'
+
+  jpro.visible = true
+}
+
