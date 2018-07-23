@@ -1,1 +1,1 @@
-# MDFX - render markdown in JavaFX
+# markdown-javafx-renderer

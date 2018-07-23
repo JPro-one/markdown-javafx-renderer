@@ -119,15 +119,8 @@ class MDFXNodeHelper extends VBox {
             new VisitHandler<>(TableHead.class, this::visit),
             new VisitHandler<>(TableBody.class, this::visit),
             new VisitHandler<>(TableRow.class, this::visit),
-            new VisitHandler<>(TableCell.class, this::visit),
-            new VisitHandler<>(AttributesNode.class, this::visit),
-            new VisitHandler<>(AttributeNode.class, this::visit)
+            new VisitHandler<>(TableCell.class, this::visit)
     );
-
-    public void visit(com.vladsch.flexmark.ast.Node node) {
-      System.out.println("Node: " + node);
-      visitor.visitChildren(node);
-    }
 
     public void visit(Code code) {
 

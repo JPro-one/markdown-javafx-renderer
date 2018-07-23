@@ -10,6 +10,7 @@ buildscript {
 
   dependencies {
     classpath 'com.sandec.jpro:jpro-plugin-gradle:2018.1.5-SNAPSHOT'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
   }
 }
 
@@ -21,12 +22,17 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'application'
 
+group = 'SANDEC'
+version = "$MDFX_VERSION"
+
 compileJava {
   sourceCompatibility = 1.8
   targetCompatibility = 1.8
 }
 
 apply plugin: 'com.sandec.jpro'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 
 dependencies {
@@ -35,6 +41,32 @@ dependencies {
   // compile 'com.vladsch.flexmark:flexmark-ext-attributes:0.34.10'
   // compile 'com.atlassian.commonmark:commonmark:0.10.0'
   // compile 'com.atlassian.commonmark:commonmark-ext-gfm-tables:0.10.0'
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      groupId project.group
+      artifactId "markdown-javafx-renderer"
+      version project.version
+    }
+  }
+}
+
+bintray {
+  if(project.hasProperty("BINTRAY_USER")) {
+    user = BINTRAY_USER
+    key  = BINTRAY_KEY
+  }
+  publications = ['mavenJava']
+  publish = true
+  override = true
+  pkg {
+    repo = 'repo'
+    name = project.name
+    userOrg = 'sandec'
+  }
 }
 
 
