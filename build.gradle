@@ -30,7 +30,8 @@ apply plugin: 'com.sandec.jpro'
 
 
 dependencies {
-    compile 'com.vladsch.flexmark:flexmark-ext-tables:0.34.10'
+  compile 'com.vladsch.flexmark:flexmark-ext-tables:0.34.10'
+  compile 'com.vladsch.flexmark:flexmark-ext-attributes:0.34.10'
   // compile 'com.vladsch.flexmark:flexmark-ext-attributes:0.34.10'
   // compile 'com.atlassian.commonmark:commonmark:0.10.0'
   // compile 'com.atlassian.commonmark:commonmark-ext-gfm-tables:0.10.0'

@@ -1,6 +1,10 @@
 package com.sandec.mdfx;
 
 import com.vladsch.flexmark.ast.*;
+import com.vladsch.flexmark.ext.attributes.AttributeNode;
+import com.vladsch.flexmark.ext.attributes.AttributesExtension;
+import com.vladsch.flexmark.ext.attributes.AttributesNode;
+import com.vladsch.flexmark.ext.attributes.internal.AttributesNodePostProcessor;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -17,11 +21,14 @@ import com.vladsch.flexmark.Extension;
 import com.vladsch.flexmark.ext.tables.*;
 import com.vladsch.flexmark.parser.Parser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 
 class MDFXNodeHelper extends VBox {
   String mdString;
@@ -69,13 +76,12 @@ class MDFXNodeHelper extends VBox {
 
     LinkedList<Extension> extensions = new LinkedList();
     extensions.add(TablesExtension.create());
+    extensions.add(AttributesExtension.create());
     Parser parser = Parser.builder().extensions(extensions).build();
-    com.vladsch.flexmark.ast.Node node = parser.parse(mdstring);
 
-    System.out.println("A");
-    new MDParser().visitor.visitChildren(node);
-    System.out.println("B");
-    //node.accept(new MDParser());
+    com.vladsch.flexmark.ast.Document node = parser.parse(mdstring);
+
+    new MDParser(node).visitor.visitChildren(node);
 
     this.getChildren().add(root);
   }
@@ -83,6 +89,11 @@ class MDFXNodeHelper extends VBox {
 
   class MDParser {
 
+    Document document;
+
+    MDParser(Document document) {
+      this.document = document;
+    }
 
     NodeVisitor visitor = new NodeVisitor(
             //new VisitHandler<>(com.vladsch.flexmark.ast.Node.class, this::visit),
@@ -103,11 +114,14 @@ class MDFXNodeHelper extends VBox {
             new VisitHandler<>(Paragraph.class, this::visit),
             new VisitHandler<>(com.vladsch.flexmark.ast.Image.class, this::visit),
             new VisitHandler<>(Link.class, this::visit),
+            new VisitHandler<>(com.vladsch.flexmark.ast.TextBase.class, this::visit),
             new VisitHandler<>(com.vladsch.flexmark.ast.Text.class, this::visit),
             new VisitHandler<>(TableHead.class, this::visit),
             new VisitHandler<>(TableBody.class, this::visit),
             new VisitHandler<>(TableRow.class, this::visit),
-            new VisitHandler<>(TableCell.class, this::visit)
+            new VisitHandler<>(TableCell.class, this::visit),
+            new VisitHandler<>(AttributesNode.class, this::visit),
+            new VisitHandler<>(AttributeNode.class, this::visit)
     );
 
     public void visit(com.vladsch.flexmark.ast.Node node) {
@@ -251,9 +265,12 @@ class MDFXNodeHelper extends VBox {
     }
 
     public void visit(Paragraph paragraph) {
+      List<AttributesNode> atts = AttributesExtension.NODE_ATTRIBUTES.getFrom(document).get(paragraph);
       newParagraph();
       flow.getStyleClass().add("markdown-normal-flow");
+      setAttrs(atts,true);
       visitor.visitChildren(paragraph);
+      setAttrs(atts,false);
     }
 
     public void visit(com.vladsch.flexmark.ast.Image image) {
@@ -305,11 +322,18 @@ class MDFXNodeHelper extends VBox {
       elemFunctions.remove(addProp);
     }
 
+    public void visit(com.vladsch.flexmark.ast.TextBase text) {
+      List<AttributesNode> atts = AttributesExtension.NODE_ATTRIBUTES.getFrom(document).get(text);
+      setAttrs(atts,true);
+      visitor.visitChildren(text);
+      setAttrs(atts,false);
+    }
+
     public void visit(com.vladsch.flexmark.ast.Text text) {
       visitor.visitChildren(text);
 
       String wholeText = text.getChars().normalizeEOL();
-      System.out.println("wholeText: " + wholeText);
+
       String[] textsSplitted = null;
       if (nodePerWord) {
         textsSplitted = text.getChars().normalizeEOL().split(" ");
@@ -378,7 +402,6 @@ class MDFXNodeHelper extends VBox {
       flow.getStyleClass().add("markdown-table-cell");
       if (gridy == 0) {
         flow.getStyleClass().add("markdown-table-cell-top");
-        System.out.println("TOP!");
       }
       if (gridy % 2 == 0) {
         flow.getStyleClass().add("markdown-table-odd");
@@ -389,6 +412,25 @@ class MDFXNodeHelper extends VBox {
       gridx += 1;
       visitor.visitChildren(customNode);
     }
+
+    public void setAttrs(List<AttributesNode> atts, boolean add) {
+      if(atts == null) return;
+
+      List<com.vladsch.flexmark.ast.Node> atts2 = atts.stream().flatMap(x -> StreamSupport.stream(x.getChildren().spliterator(),false)).collect(Collectors.toList());
+      List<AttributeNode> atts3 = (List<AttributeNode>) (Object) atts2;
+
+      atts3.forEach(att -> {
+        if(att.getName().toLowerCase().equals("style")) {
+          if(add) styles.add(att.getValue().toString());
+          else styles.remove(att.getValue().toString());
+        }
+        if(att.isClass()) {
+          if(add) elemStyleClass.add(att.getValue().toString());
+          else elemStyleClass.remove(att.getValue().toString());
+        }
+      });
+    }
+
   }
 
   public void addText(String text, String wholeText) {
@@ -403,6 +445,9 @@ class MDFXNodeHelper extends VBox {
       elemFunctions.stream().forEach(f -> {
         f.accept(new Pair(toAdd,wholeText));
       });
+      if(!styles.isEmpty()) {
+        toAdd.setStyle(styles.stream().collect(Collectors.joining(";")));
+      }
 
       flow.getChildren().add(toAdd);
     }
