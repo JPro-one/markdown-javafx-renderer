@@ -1,5 +1,6 @@
 package com.sandec.mdfx;
 
+import com.vladsch.flexmark.ast.*;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,10 +13,9 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Pair;
-import org.commonmark.Extension;
-import org.commonmark.ext.gfm.tables.*;
-import org.commonmark.node.AbstractVisitor;
-import org.commonmark.parser.Parser;
+import com.vladsch.flexmark.Extension;
+import com.vladsch.flexmark.ext.tables.*;
+import com.vladsch.flexmark.parser.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -70,23 +70,60 @@ class MDFXNodeHelper extends VBox {
     LinkedList<Extension> extensions = new LinkedList();
     extensions.add(TablesExtension.create());
     Parser parser = Parser.builder().extensions(extensions).build();
-    org.commonmark.node.Node node = parser.parse(mdstring);
-    node.accept(new MDParser());
+    com.vladsch.flexmark.ast.Node node = parser.parse(mdstring);
+
+    System.out.println("A");
+    new MDParser().visitor.visitChildren(node);
+    System.out.println("B");
+    //node.accept(new MDParser());
 
     this.getChildren().add(root);
   }
 
 
-  class MDParser extends AbstractVisitor {
-    public void visit(org.commonmark.node.Code code) {
+  class MDParser {
 
-      Label label = new Label(code.getLiteral());
+
+    NodeVisitor visitor = new NodeVisitor(
+            //new VisitHandler<>(com.vladsch.flexmark.ast.Node.class, this::visit),
+            new VisitHandler<>(Code.class, this::visit),
+            new VisitHandler<>(CustomBlock.class, this::visit),
+            new VisitHandler<>(Document.class, this::visit),
+            new VisitHandler<>(Emphasis.class, this::visit),
+            new VisitHandler<>(StrongEmphasis.class, this::visit),
+            new VisitHandler<>(FencedCodeBlock.class, this::visit),
+            new VisitHandler<>(SoftLineBreak.class, this::visit),
+            new VisitHandler<>(HardLineBreak.class, this::visit),
+            new VisitHandler<>(Heading.class, this::visit),
+            new VisitHandler<>(ListItem.class, this::visit),
+            new VisitHandler<>(BulletListItem.class, this::visit),
+            new VisitHandler<>(OrderedListItem.class, this::visit),
+            new VisitHandler<>(BulletList.class, this::visit),
+            new VisitHandler<>(OrderedList.class, this::visit),
+            new VisitHandler<>(Paragraph.class, this::visit),
+            new VisitHandler<>(com.vladsch.flexmark.ast.Image.class, this::visit),
+            new VisitHandler<>(Link.class, this::visit),
+            new VisitHandler<>(com.vladsch.flexmark.ast.Text.class, this::visit),
+            new VisitHandler<>(TableHead.class, this::visit),
+            new VisitHandler<>(TableBody.class, this::visit),
+            new VisitHandler<>(TableRow.class, this::visit),
+            new VisitHandler<>(TableCell.class, this::visit)
+    );
+
+    public void visit(com.vladsch.flexmark.ast.Node node) {
+      System.out.println("Node: " + node);
+      visitor.visitChildren(node);
+    }
+
+    public void visit(Code code) {
+
+      Label label = new Label(code.getText().normalizeEndWithEOL());
       label.getStyleClass().add("markdown-code");
 
       Region bgr1 = new Region();
       bgr1.setManaged(false);
       bgr1.getStyleClass().add("markdown-code-background");
-      label.boundsInParentProperty().addListener((p,oldV,newV) -> {
+      label.boundsInParentProperty().addListener((p, oldV, newV) -> {
         bgr1.setTranslateX(newV.getMinX() + 2);
         bgr1.setTranslateY(newV.getMinY() - 2);
         bgr1.resize(newV.getWidth() - 4, newV.getHeight() + 4);
@@ -95,88 +132,34 @@ class MDFXNodeHelper extends VBox {
       flow.getChildren().add(bgr1);
       flow.getChildren().add(label);
 
-      super.visit(code);
+      visitor.visitChildren(code);
     }
 
-    public void visit(org.commonmark.node.CustomBlock customBlock) {
+    public void visit(CustomBlock customBlock) {
       flow.getChildren().add(new Text("\n\n"));
-      super.visit(customBlock);
+      visitor.visitChildren(customBlock);
     }
 
 
-    public void visit(org.commonmark.node.CustomNode customNode) {
-      if(customNode instanceof TableHead){
-        TextFlow oldFlow = flow;
-        grid = new GridPane();
-        grid.getStyleClass().add("markdown-table-table");
-        int gridx = 0;
-        int gridy = -1;
-        root.getChildren().add(grid);
-
-        super.visit(customNode);
-
-
-        IntStream.rangeClosed(1, gridx).forEach( i -> {
-          ColumnConstraints constraint = new ColumnConstraints();
-          if(i == gridx) {
-            constraint.setPercentWidth(100.0 * (2.0 / (gridx+1.0)));
-          }
-          grid.getColumnConstraints().add(constraint);
-        });
-
-        flow = oldFlow;
-        newParagraph();
-        //flow.styleClass ::= "markdown-normal-flow"
-      } else if(customNode instanceof TableBody) {
-        super.visit(customNode);
-      //} else if(customNode instanceof TableBlock) {
-      //  super.visit(customNode);
-      } else if(customNode instanceof TableRow) {
-        gridx = 0;
-        gridy += 1;
-        super.visit(customNode);
-      } else if(customNode instanceof TableCell) {
-        TextFlow oldFlow = flow;
-        flow = new TextFlow();
-        flow.getStyleClass().add("markdown-normal-flow");
-        TextFlow container = flow;
-        //  println("grid: " + grid)
-        //  javafx.scene.layout.GridPane.setHgrow(container,Priority.ALWAYS)
-        flow.setPrefWidth(9999);
-        flow.getStyleClass().add("markdown-table-cell");
-        if(gridy == 0) {
-          flow.getStyleClass().add("markdown-table-cell-top");
-        }
-        if(gridy % 2 == 0) {
-          flow.getStyleClass().add("markdown-table-odd");
-        } else {
-          flow.getStyleClass().add("markdown-table-even");
-        }
-        grid.add(container,gridx,gridy);
-        gridx += 1;
-        super.visit(customNode);
-      }
+    public void visit(Document document) {
+      visitor.visitChildren(document);
     }
 
-    public void visit(org.commonmark.node.Document document) {
-      super.visit(document);
-    }
-
-    public void visit(org.commonmark.node.Emphasis emphasis) {
+    public void visit(Emphasis emphasis) {
       elemStyleClass.add(ITALICE_CLASS_NAME);
-      super.visit(emphasis);
+      visitor.visitChildren(emphasis);
       elemStyleClass.remove(ITALICE_CLASS_NAME);
     }
 
-    public void visit(org.commonmark.node.StrongEmphasis strongEmphasis) {
+    public void visit(StrongEmphasis strongEmphasis) {
       elemStyleClass.add(BOLD_CLASS_NAME);
-      super.visit(strongEmphasis);
+      visitor.visitChildren(strongEmphasis);
       elemStyleClass.remove(BOLD_CLASS_NAME);
     }
 
-    public void visit(org.commonmark.node.FencedCodeBlock fencedCodeBlock) {
+    public void visit(FencedCodeBlock fencedCodeBlock) {
 
-      Label label = new Label(fencedCodeBlock.getLiteral());
+      Label label = new Label(fencedCodeBlock.getNodeName());
       label.getStyleClass().add("markdown-codeblock");
       VBox vbox = new VBox(label);
       vbox.getStyleClass().add("markdown-codeblock-box");
@@ -184,43 +167,43 @@ class MDFXNodeHelper extends VBox {
       root.getChildren().add(vbox);
       //flow.styleClass ::= "markdown-normal-flow"
       //flow <++ new Text("\n")
-      super.visit(fencedCodeBlock);
+      visitor.visitChildren(fencedCodeBlock);
     }
 
-    public void visit(org.commonmark.node.SoftLineBreak softLineBreak) {
+    public void visit(SoftLineBreak softLineBreak) {
       //flow <++ new Text("\n")
-      addText(" ","");
-      super.visit(softLineBreak);
+      addText(" ", "");
+      visitor.visitChildren(softLineBreak);
     }
 
-    public void visit(org.commonmark.node.HardLineBreak hardLineBreak) {
+    public void visit(HardLineBreak hardLineBreak) {
       flow.getChildren().add(new Text("\n"));
-      super.visit(hardLineBreak);
+      visitor.visitChildren(hardLineBreak);
     }
 
 
-    public void visit(org.commonmark.node.Heading heading) {
+    public void visit(Heading heading) {
 
-      if(heading.getLevel() == 1 || heading.getLevel() == 2) {
+      if (heading.getLevel() == 1 || heading.getLevel() == 2) {
         currentChapter[heading.getLevel()] += 1;
 
-        IntStream.rangeClosed(heading.getLevel()+1, currentChapter.length-1).forEach( i -> {
+        IntStream.rangeClosed(heading.getLevel() + 1, currentChapter.length - 1).forEach(i -> {
           currentChapter[i] = 0;
         });
       }
 
-      if(shouldShowContent()) {
+      if (shouldShowContent()) {
         newParagraph();
 
         flow.getStyleClass().add("markdown-heading-" + heading.getLevel());
         flow.getStyleClass().add("markdown-heading");
 
-        super.visit(heading);
+        visitor.visitChildren(heading);
       }
     }
 
 
-    public void visit(org.commonmark.node.ListItem listItem) {
+    public void visit(ListItem listItem) {
       // add new listItem
       VBox oldRoot = root;
 
@@ -243,61 +226,61 @@ class MDFXNodeHelper extends VBox {
 
       root = newRoot;
 
-      super.visit(listItem);
+      visitor.visitChildren(listItem);
       root = oldRoot;
     }
 
-    public void visit(org.commonmark.node.BulletList bulletList) {
+    public void visit(BulletList bulletList) {
       VBox oldRoot = root;
       root = new VBox();
       oldRoot.getChildren().add(root);
       newParagraph();
       flow.getStyleClass().add("markdown-normal-flow");
-      super.visit(bulletList);
+      visitor.visitChildren(bulletList);
       root = oldRoot;
     }
 
-    public void visit(org.commonmark.node.OrderedList orderedList) {
+    public void visit(OrderedList orderedList) {
       VBox oldRoot = root;
       root = new VBox();
       oldRoot.getChildren().add(root);
       newParagraph();
       flow.getStyleClass().add("markdown-normal-flow");
-      super.visit(orderedList);
+      visitor.visitChildren(orderedList);
       root = oldRoot;
     }
 
-    public void visit(org.commonmark.node.Paragraph paragraph) {
+    public void visit(Paragraph paragraph) {
       newParagraph();
       flow.getStyleClass().add("markdown-normal-flow");
-      super.visit(paragraph);
+      visitor.visitChildren(paragraph);
     }
 
-    public void visit(org.commonmark.node.Image image) {
-      flow.getChildren().add(new ImageView(new Image(image.getDestination())));
-      super.visit(image);
+    public void visit(com.vladsch.flexmark.ast.Image image) {
+      // TODO  flow.getChildren().add(new ImageView(new Image(image.getUrlContent().toString())));
+      visitor.visitChildren(image);
     }
 
-    public void visit(org.commonmark.node.Link link) {
+    public void visit(Link link) {
 
       LinkedList<Node> nodes = new LinkedList<>();
 
-      Consumer<Pair<Node,String>> addProp = (pair) -> {
+      Consumer<Pair<Node, String>> addProp = (pair) -> {
         Node node = pair.getKey();
         String txt = pair.getValue();
         nodes.add(node);
 
         node.getStyleClass().add("markdown-link");
-        parent.setLink(node,link.getDestination(),txt);
+        parent.setLink(node, link.getUrl().normalizeEndWithEOL(), txt);
       };
       Platform.runLater(() -> {
         BooleanProperty lastValue = new SimpleBooleanProperty(false);
         Runnable updateState = () -> {
           boolean isHover = nodes.stream().map(node -> node.isHover()).collect(Collectors.toList()).contains(true);
-          if(isHover != lastValue.get()) {
+          if (isHover != lastValue.get()) {
             lastValue.set(isHover);
             nodes.stream().forEach(node -> {
-              if(isHover) {
+              if (isHover) {
                 node.getStyleClass().add("markdown-link-hover");
               } else {
                 node.getStyleClass().remove("markdown-link-hover");
@@ -309,7 +292,7 @@ class MDFXNodeHelper extends VBox {
         };
 
         nodes.stream().forEach(node -> {
-          node.hoverProperty().addListener((p,o,n) -> updateState.run());
+          node.hoverProperty().addListener((p, o, n) -> updateState.run());
         });
         updateState.run();
       });
@@ -317,26 +300,27 @@ class MDFXNodeHelper extends VBox {
       boolean oldNodePerWord = nodePerWord;
       nodePerWord = true;
       elemFunctions.add(addProp);
-      super.visit(link);
+      visitor.visitChildren(link);
       nodePerWord = oldNodePerWord;
       elemFunctions.remove(addProp);
     }
 
-    public void visit(org.commonmark.node.Text text) {
-      super.visit(text);
+    public void visit(com.vladsch.flexmark.ast.Text text) {
+      visitor.visitChildren(text);
 
-      String wholeText = text.getLiteral();
+      String wholeText = text.getChars().normalizeEOL();
+      System.out.println("wholeText: " + wholeText);
       String[] textsSplitted = null;
-      if(nodePerWord) {
-        textsSplitted = text.getLiteral().split(" ");
+      if (nodePerWord) {
+        textsSplitted = text.getChars().normalizeEOL().split(" ");
       } else {
         textsSplitted = new String[1];
-        textsSplitted[0] = text.getLiteral();
+        textsSplitted[0] = text.getChars().normalizeEOL();
       }
       final String[] textsSplittedFinal = textsSplitted;
 
-      IntStream.rangeClosed(0,textsSplitted.length - 1).forEach(i -> {
-        if(i == 0) {
+      IntStream.rangeClosed(0, textsSplitted.length - 1).forEach(i -> {
+        if (i == 0) {
           addText(textsSplittedFinal[i], wholeText);
         } else {
           addText(" " + textsSplittedFinal[i], wholeText);
@@ -344,21 +328,83 @@ class MDFXNodeHelper extends VBox {
       });
     }
 
-    public void addText(String text, String wholeText) {
-      if(!text.isEmpty()) {
+    public void visit(TableHead customNode) {
+      TextFlow oldFlow = flow;
+      grid = new GridPane();
+      grid.getStyleClass().add("markdown-table-table");
+      gridx = 0;
+      gridy = -1;
+      root.getChildren().add(grid);
 
-        Text toAdd = new Text(text);
+      visitor.visitChildren(customNode);
 
-        toAdd.getStyleClass().add("markdown-text");
-        elemStyleClass.stream().forEach(elemStyleClass -> {
-          toAdd.getStyleClass().add(elemStyleClass);
-        });
-        elemFunctions.stream().forEach(f -> {
-          f.accept(new Pair(toAdd,wholeText));
-        });
 
-        flow.getChildren().add(toAdd);
+      IntStream.rangeClosed(1, gridx).forEach(i -> {
+        ColumnConstraints constraint = new ColumnConstraints();
+        if (i == gridx) {
+          constraint.setPercentWidth(100.0 * (2.0 / (gridx + 1.0)));
+        }
+        grid.getColumnConstraints().add(constraint);
+      });
+
+      flow = oldFlow;
+      newParagraph();
+      //flow.styleClass ::= "markdown-normal-flow"
+    }
+
+    public void visit(TableBody customNode) {
+      visitor.visitChildren(customNode);
+      //} else if(customNode instanceof TableBlock) {
+      //  super.visit(customNode);
+    }
+
+    public void visit(TableRow customNode) {
+      System.out.println(customNode.getRowNumber());
+      if(customNode.getRowNumber() != 0) {
+        gridx = 0;
+        gridy += 1;
+        visitor.visitChildren(customNode);
       }
+    }
+
+    public void visit(TableCell customNode) {
+      TextFlow oldFlow = flow;
+      flow = new TextFlow();
+      flow.getStyleClass().add("markdown-normal-flow");
+      TextFlow container = flow;
+      //  println("grid: " + grid)
+      //  javafx.scene.layout.GridPane.setHgrow(container,Priority.ALWAYS)
+      flow.setPrefWidth(9999);
+      flow.getStyleClass().add("markdown-table-cell");
+      if (gridy == 0) {
+        flow.getStyleClass().add("markdown-table-cell-top");
+        System.out.println("TOP!");
+      }
+      if (gridy % 2 == 0) {
+        flow.getStyleClass().add("markdown-table-odd");
+      } else {
+        flow.getStyleClass().add("markdown-table-even");
+      }
+      grid.add(container, gridx, gridy);
+      gridx += 1;
+      visitor.visitChildren(customNode);
+    }
+  }
+
+  public void addText(String text, String wholeText) {
+    if(!text.isEmpty()) {
+
+      Text toAdd = new Text(text);
+
+      toAdd.getStyleClass().add("markdown-text");
+      elemStyleClass.stream().forEach(elemStyleClass -> {
+        toAdd.getStyleClass().add(elemStyleClass);
+      });
+      elemFunctions.stream().forEach(f -> {
+        f.accept(new Pair(toAdd,wholeText));
+      });
+
+      flow.getChildren().add(toAdd);
     }
   }
 }
