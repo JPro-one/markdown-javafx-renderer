@@ -20,7 +20,6 @@ repositories {
 
 
 apply plugin: 'java'
-apply plugin: 'application'
 
 group = 'com.sandec'
 version = "$MDFX_VERSION"
@@ -30,7 +29,6 @@ compileJava {
   targetCompatibility = 1.8
 }
 
-apply plugin: 'com.sandec.jpro'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
