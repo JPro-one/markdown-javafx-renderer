@@ -139,7 +139,7 @@ class MDFXNodeHelper extends VBox {
       flow.getChildren().add(bgr1);
       flow.getChildren().add(label);
 
-      visitor.visitChildren(code);
+      //visitor.visitChildren(code);
     }
 
     public void visit(CustomBlock customBlock) {
@@ -168,7 +168,7 @@ class MDFXNodeHelper extends VBox {
 
       if(!shouldShowContent()) return;
 
-      Label label = new Label(fencedCodeBlock.getChars().toString());
+      Label label = new Label(fencedCodeBlock.getContentChars().toString());
       label.getStyleClass().add("markdown-codeblock");
       VBox vbox = new VBox(label);
       vbox.getStyleClass().add("markdown-codeblock-box");
@@ -176,7 +176,7 @@ class MDFXNodeHelper extends VBox {
       root.getChildren().add(vbox);
       //flow.styleClass ::= "markdown-normal-flow"
       //flow <++ new Text("\n")
-      visitor.visitChildren(fencedCodeBlock);
+      //visitor.visitChildren(fencedCodeBlock);
     }
 
     public void visit(SoftLineBreak softLineBreak) {
@@ -356,6 +356,9 @@ class MDFXNodeHelper extends VBox {
     }
 
     public void visit(TableHead customNode) {
+
+      if(!shouldShowContent()) return;
+
       TextFlow oldFlow = flow;
       grid = new GridPane();
       grid.getStyleClass().add("markdown-table-table");
@@ -380,6 +383,7 @@ class MDFXNodeHelper extends VBox {
     }
 
     public void visit(TableBody customNode) {
+      if(!shouldShowContent()) return;
       visitor.visitChildren(customNode);
       //} else if(customNode instanceof TableBlock) {
       //  super.visit(customNode);
