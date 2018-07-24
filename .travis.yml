@@ -7,5 +7,5 @@ os:
   - linux
 
 script:
-  - ./gradle :jar
-  - ./gradle example:jar
+  - ./gradlew :jar
+  - ./gradlew example:jar
