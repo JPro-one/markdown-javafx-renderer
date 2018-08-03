@@ -10,7 +10,8 @@ It is used to render the [documentation for jpro](https://www.jpro.one/?page=doc
 ## Usage
 
 
-Add the repository and the library to your build:
+### Add the library to your project:
+For Gradle:
 ```
 repositories {
     maven {
@@ -21,6 +22,21 @@ dependencies {
     compile "com.sandec:mdfx:0.1.0-SNAPSHOT"
 }
 ```
+
+Usage:
+```
+import com.sandec.mdfx.MDFXNode;
+
+MDFXNode mdfx = new MDFXNode("your-markdown");
+content.getStylesheets().add("/com/sandec/mdfx/mdfx-default.css");
+```
+
+Simple Application:
+link: TODO
+
+Feature Overview:
+
+
 
 
 ## Development
