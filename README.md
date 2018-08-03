@@ -19,7 +19,7 @@ repositories {
     }
 }
 dependencies {
-    compile "com.sandec:mdfx:0.1.0-SNAPSHOT"
+    compile "com.sandec:mdfx:0.1.0"
 }
 ```
 
