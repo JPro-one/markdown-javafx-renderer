@@ -11,15 +11,20 @@ It is used to render the [documentation for jpro](https://www.jpro.one/?page=doc
 
 
 ### Add the library to your project:
-For Gradle:
+For Gradle, add the following to your `build.gradle`:
+
+Add the following repository:
 ```
 repositories {
     maven {
         url "http://sandec.bintray.com/repo"
     }
-}
+
+```
+Add The following dependency:
+``
 dependencies {
-    compile "com.sandec:mdfx:0.1.0"
+    compile "com.sandec:mdfx:0.1.1"
 }
 ```
 

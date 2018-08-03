@@ -28,11 +28,11 @@ public class ExampleMDFX extends Application {
         TextArea textArea = new TextArea(mdfxTxt);
 
         mdfxNode.mdStringProperty.bind(textArea.textProperty());
+        mdfxNode.getStylesheets().add("/com/sandec/mdfx/mdfx-sample.css");
 
         ScrollPane content = new ScrollPane(mdfxNode);
 
         content.setFitToWidth(true);
-        content.getStylesheets().add("/com/sandec/mdfx/mdfx-default.css");
 
         textArea.setMinWidth(350);
         HBox root = new HBox(textArea,content);

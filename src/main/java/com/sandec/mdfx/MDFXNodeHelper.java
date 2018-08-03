@@ -69,8 +69,6 @@ class MDFXNodeHelper extends VBox {
   public MDFXNodeHelper(MDFXNode parent, String mdstring) {
     this.parent = parent;
 
-    getStylesheets().add("/com/sandec/mdfx/mdfx.css");
-
     root.getStyleClass().add("markdown-paragraph-list");
     root.setFillWidth(true);
 

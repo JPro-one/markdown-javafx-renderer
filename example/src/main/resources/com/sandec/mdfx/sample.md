@@ -17,10 +17,14 @@
  asdf | a`sdf`sdf | asdf
  
  ### Attributes
-Only se second line
+Be careful about whitespaces before `{`!
+
+Only the second line (in the code)
 is blue!{style="-fx-fill: blue;"}
 
 I'm a lot of text
 With multiple lines! {style="-fx-fill: red;"}
+
+I can also set the class {class="classname"}
 
  
