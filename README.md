@@ -35,7 +35,10 @@ Simple Application:
 link: TODO
 
 Feature Overview:
+[Reference-Markdown-File](https://github.com/jpro-one/markdown-javafx-renderer/blob/master/example/src/main/resources/com/sandec/mdfx/sample.md)
 
+You can personalize the looking of your markdown via css:
+[Minimal default-file](https://github.com/jpro-one/markdown-javafx-renderer/blob/master/src/main/resources/com/sandec/mdfx/mdfx-default.css)
 
 
 
