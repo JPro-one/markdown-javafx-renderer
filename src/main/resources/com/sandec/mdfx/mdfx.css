@@ -52,6 +52,10 @@
 .markdown-paragraph-list {
   -fx-spacing: 15;
 }
+.markdown-listitem-dot {
+  -fx-font-size: 16;
+  -fx-text-fill: -mdfx-font-color;
+}
 
 .markdown-codeblock-box,
 .markdown-code {
