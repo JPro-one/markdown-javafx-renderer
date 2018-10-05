@@ -27,7 +27,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
 class MDFXNodeHelper extends VBox {
@@ -194,9 +193,9 @@ class MDFXNodeHelper extends VBox {
       if (heading.getLevel() == 1 || heading.getLevel() == 2) {
         currentChapter[heading.getLevel()] += 1;
 
-        IntStream.rangeClosed(heading.getLevel() + 1, currentChapter.length - 1).forEach(i -> {
+        for(int i=heading.getLevel() + 1; i <= currentChapter.length - 1; i+=1) {
           currentChapter[i] = 0;
-        });
+        };
       }
 
       if (shouldShowContent()) {
@@ -224,6 +223,7 @@ class MDFXNodeHelper extends VBox {
 
       Label label = new Label(" • ");
       label.getStyleClass().add("markdown-listitem-dot");
+      label.getStyleClass().add("markdown-text");
       label.setMinWidth(20);
 
       HBox hbox = new HBox();
@@ -345,13 +345,13 @@ class MDFXNodeHelper extends VBox {
       }
       final String[] textsSplittedFinal = textsSplitted;
 
-      IntStream.rangeClosed(0, textsSplitted.length - 1).forEach(i -> {
+      for(int i = 0; i <= textsSplitted.length - 1; i+=1) {
         if (i == 0) {
           addText(textsSplittedFinal[i], wholeText);
         } else {
           addText(" " + textsSplittedFinal[i], wholeText);
         }
-      });
+      }
     }
 
     public void visit(TableHead customNode) {
@@ -367,14 +367,13 @@ class MDFXNodeHelper extends VBox {
 
       visitor.visitChildren(customNode);
 
-
-      IntStream.rangeClosed(1, gridx).forEach(i -> {
+      for(int i=1; i <= gridx; i+=1) {
         ColumnConstraints constraint = new ColumnConstraints();
         if (i == gridx) {
           constraint.setPercentWidth(100.0 * (2.0 / (gridx + 1.0)));
         }
         grid.getColumnConstraints().add(constraint);
-      });
+      }
 
       flow = oldFlow;
       newParagraph();
