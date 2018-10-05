@@ -25,9 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 class MDFXNodeHelper extends VBox {
   String mdString;
@@ -39,7 +36,7 @@ class MDFXNodeHelper extends VBox {
 
   List<String> elemStyleClass = new LinkedList<String>();
 
-  List<Consumer<Pair<Node,String>>> elemFunctions = new LinkedList<Consumer<Pair<Node,String>>>();
+  List<ConsumerHelper<Pair<Node,String>>> elemFunctions = new LinkedList<ConsumerHelper<Pair<Node,String>>>();
 
   Boolean nodePerWord = false;
 
@@ -284,7 +281,7 @@ class MDFXNodeHelper extends VBox {
 
       LinkedList<Node> nodes = new LinkedList<>();
 
-      Consumer<Pair<Node, String>> addProp = (pair) -> {
+      ConsumerHelper<Pair<Node, String>> addProp = (pair) -> {
         Node node = pair.getKey();
         String txt = pair.getValue();
         nodes.add(node);
@@ -295,24 +292,29 @@ class MDFXNodeHelper extends VBox {
       Platform.runLater(() -> {
         BooleanProperty lastValue = new SimpleBooleanProperty(false);
         Runnable updateState = () -> {
-          boolean isHover = nodes.stream().map(node -> node.isHover()).collect(Collectors.toList()).contains(true);
+          boolean isHover = false;
+          for(Node node: nodes) {
+            if(node.isHover()) {
+              isHover = true;
+            }
+          }
           if (isHover != lastValue.get()) {
             lastValue.set(isHover);
-            nodes.stream().forEach(node -> {
+            for(Node node: nodes) {
               if (isHover) {
                 node.getStyleClass().add("markdown-link-hover");
               } else {
                 node.getStyleClass().remove("markdown-link-hover");
               }
 
-            });
+            };
           }
 
         };
 
-        nodes.stream().forEach(node -> {
+        for(Node node: nodes) {
           node.hoverProperty().addListener((p, o, n) -> updateState.run());
-        });
+        };
         updateState.run();
       });
 
@@ -420,7 +422,14 @@ class MDFXNodeHelper extends VBox {
     public void setAttrs(List<AttributesNode> atts, boolean add) {
       if(atts == null) return;
 
-      List<com.vladsch.flexmark.ast.Node> atts2 = atts.stream().flatMap(x -> StreamSupport.stream(x.getChildren().spliterator(),false)).collect(Collectors.toList());
+      List<com.vladsch.flexmark.ast.Node> atts2 = new LinkedList<>();
+      for(AttributesNode att: atts) {
+        for(com.vladsch.flexmark.ast.Node attChild: att.getChildren()) {
+          atts2.add(attChild);
+        }
+      }
+
+
       List<AttributeNode> atts3 = (List<AttributeNode>) (Object) atts2;
 
       atts3.forEach(att -> {
@@ -443,14 +452,18 @@ class MDFXNodeHelper extends VBox {
       Text toAdd = new Text(text);
 
       toAdd.getStyleClass().add("markdown-text");
-      elemStyleClass.stream().forEach(elemStyleClass -> {
+      for(String elemStyleClass: elemStyleClass) {
         toAdd.getStyleClass().add(elemStyleClass);
-      });
-      elemFunctions.stream().forEach(f -> {
+      };
+      for(ConsumerHelper<Pair<Node,String>> f: elemFunctions) {
         f.accept(new Pair(toAdd,wholeText));
-      });
+      };
       if(!styles.isEmpty()) {
-        toAdd.setStyle(styles.stream().collect(Collectors.joining(";")));
+        String tmp = "";
+        for(String style: styles) {
+          tmp = tmp + style + ";";
+        }
+        toAdd.setStyle(tmp);
       }
 
       flow.getChildren().add(toAdd);
