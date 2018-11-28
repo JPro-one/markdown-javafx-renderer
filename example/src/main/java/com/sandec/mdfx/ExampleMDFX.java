@@ -2,8 +2,11 @@ package com.sandec.mdfx;
 
 import com.sandec.mdfx.MDFXNode;
 import javafx.application.Application;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
@@ -23,6 +26,25 @@ public class ExampleMDFX extends Application {
             //public boolean showChapter(int[] currentChapter) {
             //    return currentChapter[1] == 1;
             //}
+
+
+            @Override
+            public void setLink(Node node, String link, String description) {
+                System.out.println("setLink: " + link);
+                node.setCursor(Cursor.HAND);
+                node.setOnMouseClicked(e -> {
+                    System.out.println("link: " + link);
+                });
+            }
+
+            @Override
+            public Node generateImage(String url) {
+                if(url.equals("node://colorpicker")) {
+                    return new ColorPicker();
+                } else {
+                    return super.generateImage(url);
+                }
+            }
         };
 
         TextArea textArea = new TextArea(mdfxTxt);

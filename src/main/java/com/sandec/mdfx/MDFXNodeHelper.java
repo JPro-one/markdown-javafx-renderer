@@ -273,8 +273,16 @@ class MDFXNodeHelper extends VBox {
     }
 
     public void visit(com.vladsch.flexmark.ast.Image image) {
-      // TODO  flow.getChildren().add(new ImageView(new Image(image.getUrlContent().toString())));
-      visitor.visitChildren(image);
+      String url = image.getUrl().toString();
+      //System.out.println("imgUrl: " + image.getUrl());
+      //System.out.println("img.getUrlContent: " + image.getUrlContent());
+      //System.out.println("img.nodeName: " + image.getNodeName());
+      Node node = parent.generateImage(url);
+      for(ConsumerHelper<Pair<Node,String>> f: elemFunctions) {
+        f.accept(new Pair(node,"asdf"));
+      };
+      flow.getChildren().add(node);
+      //visitor.visitChildren(image);
     }
 
     public void visit(Link link) {
