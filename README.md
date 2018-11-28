@@ -1,6 +1,6 @@
 # markdown-javafx-renderer
 
-[![Build Status](https://travis-ci.org/jpro-one/markdown-javafx-renderer.svg?branch=master)](https://travis-ci.org/jpro-one/markdown-javafx-renderer)
+[![Build Status](https://travis-ci.org/JPro-one/markdown-javafx-renderer.svg?branch=master)](https://travis-ci.org/JPro-one/markdown-javafx-renderer)
 
 MDFX is a simple markdown-renderer for JavaFX.
 It's based on [flexmark-java](https://github.com/vsch/flexmark-java).
