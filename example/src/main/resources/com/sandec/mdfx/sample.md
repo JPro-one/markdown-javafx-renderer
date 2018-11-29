@@ -30,7 +30,7 @@ I can also set the class {class="classname"}
 
  ![colorpicker](node://colorpicker)
 
-![stuff](https://www.jpro.one/app/default/resourcesencoded/jar:file:/home/ubuntu/jpro/jpro.one-jpro/libs/jpro.one.jar!/one/jpro/img/jasper.jpg)
+![stuff](https://www.jpro.one/app/default/resourcesencoded/jar:file:/home/ubuntu/jpro/jpro.one-jpro/libs/jpro.one.jar!/one/jpro/img/landing/Java-Logo.png) {style="-fx-opacity: 0.5;"}
 
 ![stuff](https://www.jpro.one/app/default/resourcesencoded/jar:file:/home/ubuntu/jpro/jpro.one-jpro/libs/jpro.one.jar!/one/jpro/img/JPRO_logo_white.png)
 [![Build Status](https://www.jpro.one/app/default/resourcesencoded/jar:file:/home/ubuntu/jpro/jpro.one-jpro/libs/jpro.one.jar!/one/jpro/img/JPRO_logo_white.png)](https://travis-ci.org/jpro-one/HelloJPro)

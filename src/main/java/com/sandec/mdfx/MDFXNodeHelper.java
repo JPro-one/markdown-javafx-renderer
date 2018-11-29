@@ -278,9 +278,7 @@ class MDFXNodeHelper extends VBox {
       //System.out.println("img.getUrlContent: " + image.getUrlContent());
       //System.out.println("img.nodeName: " + image.getNodeName());
       Node node = parent.generateImage(url);
-      for(ConsumerHelper<Pair<Node,String>> f: elemFunctions) {
-        f.accept(new Pair(node,"asdf"));
-      };
+      addFeatures(node,"");
       flow.getChildren().add(node);
       //visitor.visitChildren(image);
     }
@@ -460,21 +458,26 @@ class MDFXNodeHelper extends VBox {
       Text toAdd = new Text(text);
 
       toAdd.getStyleClass().add("markdown-text");
-      for(String elemStyleClass: elemStyleClass) {
-        toAdd.getStyleClass().add(elemStyleClass);
-      };
-      for(ConsumerHelper<Pair<Node,String>> f: elemFunctions) {
-        f.accept(new Pair(toAdd,wholeText));
-      };
-      if(!styles.isEmpty()) {
-        String tmp = "";
-        for(String style: styles) {
-          tmp = tmp + style + ";";
-        }
-        toAdd.setStyle(tmp);
-      }
+
+      addFeatures(toAdd,wholeText);
 
       flow.getChildren().add(toAdd);
+    }
+  }
+
+  public void addFeatures(Node toAdd, String wholeText) {
+    for(String elemStyleClass: elemStyleClass) {
+      toAdd.getStyleClass().add(elemStyleClass);
+    };
+    for(ConsumerHelper<Pair<Node,String>> f: elemFunctions) {
+      f.accept(new Pair(toAdd,wholeText));
+    };
+    if(!styles.isEmpty()) {
+      String tmp = "";
+      for(String style: styles) {
+        tmp = tmp + style + ";";
+      }
+      toAdd.setStyle(tmp);
     }
   }
 }
