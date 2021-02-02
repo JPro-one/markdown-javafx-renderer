@@ -477,7 +477,7 @@ class MDFXNodeHelper extends VBox {
       for(String style: styles) {
         tmp = tmp + style + ";";
       }
-      toAdd.setStyle(tmp);
+      toAdd.setStyle(toAdd.getStyle() + tmp);
     }
   }
 }
