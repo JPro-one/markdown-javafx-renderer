@@ -2,6 +2,7 @@
 buildscript {
   repositories {
     jcenter()
+    gradlePluginPortal()
 
     maven {
       url "http://sandec.bintray.com/repo"
@@ -9,8 +10,9 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.sandec.jpro:jpro-plugin-gradle:2019.1.1'
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+    classpath "com.sandec.jpro:jpro-plugin-gradle:$JPRO_VERSION"
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+    classpath 'org.openjfx:javafx-plugin:0.0.9'
   }
 }
 
@@ -29,9 +31,14 @@ compileJava {
   targetCompatibility = 1.8
 }
 
+apply plugin: 'org.openjfx.javafxplugin'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
+javafx {
+  version = "$JAVAFX_VERSION"
+  modules = [ 'javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.web' ]
+}
 
 dependencies {
   compile 'com.vladsch.flexmark:flexmark-ext-tables:0.34.10'
@@ -70,14 +77,19 @@ bintray {
   }
 }
 
-
 configure([project(':example')]) {
   apply plugin: 'java'
   apply plugin: 'application'
+  apply plugin: 'org.openjfx.javafxplugin'
   apply plugin: 'com.sandec.jpro'
 
   repositories {
     jcenter()
+  }
+
+  javafx {
+    version = "$JAVAFX_VERSION"
+    modules = [ 'javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.web' ]
   }
 
   dependencies {
