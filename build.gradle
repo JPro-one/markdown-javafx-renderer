@@ -95,11 +95,9 @@ configure([project(':example')]) {
   dependencies {
     compile rootProject
 
-    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
   }
 
   mainClassName = 'com.sandec.mdfx.ExampleMDFX'
-
-  jpro.visible = true
 }
 

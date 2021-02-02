@@ -17,7 +17,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Pair;
-import com.vladsch.flexmark.Extension;
+import com.vladsch.flexmark.util.ast.*;
+import com.vladsch.flexmark.util.builder.*;
 import com.vladsch.flexmark.ext.tables.*;
 import com.vladsch.flexmark.parser.Parser;
 
@@ -73,7 +74,7 @@ class MDFXNodeHelper extends VBox {
     extensions.add(AttributesExtension.create());
     Parser parser = Parser.builder().extensions(extensions).build();
 
-    com.vladsch.flexmark.ast.Document node = parser.parse(mdstring);
+    Document node = parser.parse(mdstring);
 
     new MDParser(node).visitor.visitChildren(node);
 
@@ -428,9 +429,9 @@ class MDFXNodeHelper extends VBox {
     public void setAttrs(List<AttributesNode> atts, boolean add) {
       if(atts == null) return;
 
-      List<com.vladsch.flexmark.ast.Node> atts2 = new LinkedList<>();
+      List<com.vladsch.flexmark.util.ast.Node> atts2 = new LinkedList<>();
       for(AttributesNode att: atts) {
-        for(com.vladsch.flexmark.ast.Node attChild: att.getChildren()) {
+        for(com.vladsch.flexmark.util.ast.Node attChild: att.getChildren()) {
           atts2.add(attChild);
         }
       }
