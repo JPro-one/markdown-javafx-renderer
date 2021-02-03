@@ -26,7 +26,7 @@ repositories {
 Add The following dependency:
 ```
 dependencies {
-    compile "com.sandec:mdfx:0.1.6"
+    compile "com.sandec:mdfx:0.1.7"
 }
 ```
 
@@ -54,11 +54,11 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 ## Development
 Run the sample:
 ```
-gradle example:run
-gradle example:jproRun
+./gradlew example:run
+./gradlew example:jproRun
 ```
 
 Deploy new release:
 ```
-gradle :bintrayUpload
+./gradlew :bintrayUpload
 ```
