@@ -1,6 +1,7 @@
 package com.sandec.mdfx;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -9,12 +10,11 @@ import javafx.scene.layout.VBox;
 
 public class MDFXNode extends VBox {
 
-    SimpleStringProperty mdStringProperty = new SimpleStringProperty("");
+    private SimpleStringProperty mdString = new SimpleStringProperty("");
 
     public MDFXNode(String mdString) {
-        mdStringProperty.set(mdString);
-
-        mdStringProperty.addListener((p,o,n) -> updateContent());
+        this.mdString.set(mdString);
+        this.mdString.addListener((p,o,n) -> updateContent());
         getStylesheets().add("/com/sandec/mdfx/mdfx.css");
         updateContent();
     }
@@ -23,9 +23,21 @@ public class MDFXNode extends VBox {
     }
 
     private void updateContent() {
-        MDFXNodeHelper content = new MDFXNodeHelper(this, mdStringProperty.getValue());
+        MDFXNodeHelper content = new MDFXNodeHelper(this, mdString.getValue());
         getChildren().clear();
         getChildren().add(content);
+    }
+
+    public StringProperty mdStringProperty() {
+        return mdString;
+    }
+
+    public void setMdString(String mdString) {
+        this.mdString.set(mdString);
+    }
+
+    public String getMdString() {
+        return mdString.get();
     }
 
     public boolean showChapter(int[] currentChapter) {

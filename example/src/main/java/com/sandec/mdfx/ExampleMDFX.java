@@ -49,7 +49,7 @@ public class ExampleMDFX extends Application {
 
         TextArea textArea = new TextArea(mdfxTxt);
 
-        mdfxNode.mdStringProperty.bind(textArea.textProperty());
+        mdfxNode.mdStringProperty().bind(textArea.textProperty());
         mdfxNode.getStylesheets().add("/com/sandec/mdfx/mdfx-sample.css");
 
         ScrollPane content = new ScrollPane(mdfxNode);

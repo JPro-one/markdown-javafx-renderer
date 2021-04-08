@@ -26,7 +26,7 @@ repositories {
 Add The following dependency:
 ```
 dependencies {
-    compile "com.sandec:mdfx:0.1.7"
+    compile "com.sandec:mdfx:0.1.8"
 }
 ```
 
@@ -49,7 +49,10 @@ You can personalize the looking of your markdown via css.
 [Minimal default-file](https://github.com/jpro-one/markdown-javafx-renderer/blob/master/src/main/resources/com/sandec/mdfx/mdfx-default.css)
 Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css-file, to personalize the looking of your markdown-code.
 
+## Changelog
 
+### 0.1.8
+* The property mdString of MDFXNode is now public
 
 ## Development
 Run the sample:
