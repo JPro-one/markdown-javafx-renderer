@@ -16,6 +16,9 @@
 .markdown-bold {
   -fx-font-weight: bold;
 }
+.markdown-strikethrough {
+  -fx-strikethrough: true;
+}
 
 .classname {
   -mdfx-font-color: red;

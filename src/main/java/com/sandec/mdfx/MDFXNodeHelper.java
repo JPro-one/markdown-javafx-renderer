@@ -5,6 +5,8 @@ import com.vladsch.flexmark.ext.attributes.AttributeNode;
 import com.vladsch.flexmark.ext.attributes.AttributesExtension;
 import com.vladsch.flexmark.ext.attributes.AttributesNode;
 import com.vladsch.flexmark.ext.attributes.internal.AttributesNodePostProcessor;
+import com.vladsch.flexmark.ext.gfm.strikethrough.Strikethrough;
+import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -35,6 +37,7 @@ class MDFXNodeHelper extends VBox {
 
   final static String ITALICE_CLASS_NAME = "markdown-italic";
   final static String BOLD_CLASS_NAME = "markdown-bold";
+  final static String STRIKETHROUGH_CLASS_NAME = "markdown-strikethrough";
 
   List<String> elemStyleClass = new LinkedList<String>();
 
@@ -73,6 +76,7 @@ class MDFXNodeHelper extends VBox {
     LinkedList<Extension> extensions = new LinkedList<>();
     extensions.add(TablesExtension.create());
     extensions.add(AttributesExtension.create());
+    extensions.add(StrikethroughExtension.create());
     Parser parser = Parser.builder().extensions(extensions).build();
 
     Document node = parser.parse(mdstring);
@@ -112,6 +116,7 @@ class MDFXNodeHelper extends VBox {
             new VisitHandler<>(Link.class, this::visit),
             new VisitHandler<>(com.vladsch.flexmark.ast.TextBase.class, this::visit),
             new VisitHandler<>(com.vladsch.flexmark.ast.Text.class, this::visit),
+            new VisitHandler<>(com.vladsch.flexmark.ext.gfm.strikethrough.Strikethrough.class, this::visit),
             new VisitHandler<>(TableHead.class, this::visit),
             new VisitHandler<>(TableBody.class, this::visit),
             new VisitHandler<>(TableRow.class, this::visit),
@@ -159,6 +164,13 @@ class MDFXNodeHelper extends VBox {
       visitor.visitChildren(strongEmphasis);
       elemStyleClass.remove(BOLD_CLASS_NAME);
     }
+
+    public void visit(Strikethrough strikethrough) {
+      elemStyleClass.add(STRIKETHROUGH_CLASS_NAME);
+      visitor.visitChildren(strikethrough);
+      elemStyleClass.remove(STRIKETHROUGH_CLASS_NAME);
+    }
+
 
     public void visit(FencedCodeBlock fencedCodeBlock) {
 

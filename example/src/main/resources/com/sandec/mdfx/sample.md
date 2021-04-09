@@ -3,7 +3,7 @@
  ### heading3
  
  ### Formatting:
- *kursiv* **bold** ***both***
+ *kursiv* **bold** ***both*** ~~strikethrough~~
  links: [link to google](https://google.com)
  
  ### Listings:

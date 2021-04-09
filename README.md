@@ -51,6 +51,10 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.1.9
+* Added support for strikethrough
+* It's now possible to change the link color in the css with `-mdfx-link-color`
+* Updated flexmark to 0.62.2
 ### 0.1.8
 * The property mdString of MDFXNode is now public
 

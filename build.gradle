@@ -44,6 +44,7 @@ javafx {
 }
 
 dependencies {
+  compile "com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:$FLEXMARK_VERSION"
   compile "com.vladsch.flexmark:flexmark-ext-tables:$FLEXMARK_VERSION"
   compile "com.vladsch.flexmark:flexmark-ext-attributes:$FLEXMARK_VERSION"
 }
