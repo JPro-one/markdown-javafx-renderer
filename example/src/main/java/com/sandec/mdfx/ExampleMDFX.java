@@ -7,9 +7,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.commons.io.IOUtils;
@@ -18,6 +20,8 @@ public class ExampleMDFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        fr.brouillard.oss.cssfx.CSSFX.start();
 
         String mdfxTxt = IOUtils.toString(getClass().getResourceAsStream("/com/sandec/mdfx/sample.md"), "UTF-8");
 

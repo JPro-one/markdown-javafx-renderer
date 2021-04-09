@@ -41,7 +41,7 @@
 }
 
 .markdown-link {
-  -fx-fill: blue;
+  -fx-fill: -mdfx-link-color;
 }
 .markdown-link-hover {
   -fx-underline: true;

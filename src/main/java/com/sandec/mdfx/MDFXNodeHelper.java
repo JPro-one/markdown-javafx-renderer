@@ -21,6 +21,7 @@ import com.vladsch.flexmark.util.ast.*;
 import com.vladsch.flexmark.util.builder.*;
 import com.vladsch.flexmark.ext.tables.*;
 import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.misc.Extension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +70,7 @@ class MDFXNodeHelper extends VBox {
     root.getStyleClass().add("markdown-paragraph-list");
     root.setFillWidth(true);
 
-    LinkedList<Extension> extensions = new LinkedList();
+    LinkedList<Extension> extensions = new LinkedList<>();
     extensions.add(TablesExtension.create());
     extensions.add(AttributesExtension.create());
     Parser parser = Parser.builder().extensions(extensions).build();
@@ -93,7 +94,7 @@ class MDFXNodeHelper extends VBox {
     NodeVisitor visitor = new NodeVisitor(
             //new VisitHandler<>(com.vladsch.flexmark.ast.Node.class, this::visit),
             new VisitHandler<>(Code.class, this::visit),
-            new VisitHandler<>(CustomBlock.class, this::visit),
+            new VisitHandler<>(Block.class, this::visit),
             new VisitHandler<>(Document.class, this::visit),
             new VisitHandler<>(Emphasis.class, this::visit),
             new VisitHandler<>(StrongEmphasis.class, this::visit),
@@ -137,7 +138,7 @@ class MDFXNodeHelper extends VBox {
       //visitor.visitChildren(code);
     }
 
-    public void visit(CustomBlock customBlock) {
+    public void visit(Block customBlock) {
       flow.getChildren().add(new Text("\n\n"));
       visitor.visitChildren(customBlock);
     }

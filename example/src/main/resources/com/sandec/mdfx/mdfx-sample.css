@@ -21,3 +21,7 @@
   -mdfx-font-color: red;
   -fx-font-size: 25;
 }
+
+.markdown-link {
+  -fx-text-fill: red;
+}
