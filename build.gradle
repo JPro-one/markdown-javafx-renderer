@@ -5,7 +5,7 @@ buildscript {
     gradlePluginPortal()
 
     maven {
-      url "http://sandec.bintray.com/repo"
+      url "https://sandec.bintray.com/repo"
     }
   }
 
@@ -27,8 +27,8 @@ group = 'com.sandec'
 version = "$MDFX_VERSION"
 
 compileJava {
-  sourceCompatibility = 1.8
-  targetCompatibility = 1.8
+  sourceCompatibility = 11
+  targetCompatibility = 11
 
   options.compilerArgs << "-Xlint:deprecation"
   options.compilerArgs << "-Xlint:unchecked"
@@ -44,9 +44,9 @@ javafx {
 }
 
 dependencies {
-  compile "com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:$FLEXMARK_VERSION"
-  compile "com.vladsch.flexmark:flexmark-ext-tables:$FLEXMARK_VERSION"
-  compile "com.vladsch.flexmark:flexmark-ext-attributes:$FLEXMARK_VERSION"
+  implementation "com.vladsch.flexmark:flexmark-ext-gfm-strikethrough:$FLEXMARK_VERSION"
+  implementation "com.vladsch.flexmark:flexmark-ext-tables:$FLEXMARK_VERSION"
+  implementation "com.vladsch.flexmark:flexmark-ext-attributes:$FLEXMARK_VERSION"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -97,10 +97,10 @@ configure([project(':example')]) {
   }
 
   dependencies {
-    compile rootProject
+    implementation rootProject
 
-    compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
-    compile "fr.brouillard.oss:cssfx:$CSSFX_VERSION"
+    implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
+    implementation "fr.brouillard.oss:cssfx:$CSSFX_VERSION"
   }
 
   mainClassName = 'com.sandec.mdfx.ExampleMDFX'
