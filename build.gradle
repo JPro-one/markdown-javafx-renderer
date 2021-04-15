@@ -103,6 +103,6 @@ configure([project(':example')]) {
     implementation "fr.brouillard.oss:cssfx:$CSSFX_VERSION"
   }
 
-  mainClassName = 'com.sandec.mdfx.ExampleMDFX'
+  mainClassName = 'com.sandec.mdfx.example.ExampleMDFX'
 }
 

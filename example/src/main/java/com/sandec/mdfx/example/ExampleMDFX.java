@@ -1,4 +1,4 @@
-package com.sandec.mdfx;
+package com.sandec.mdfx.example;
 
 import com.sandec.mdfx.MDFXNode;
 import javafx.application.Application;
@@ -23,7 +23,7 @@ public class ExampleMDFX extends Application {
 
         fr.brouillard.oss.cssfx.CSSFX.start();
 
-        String mdfxTxt = IOUtils.toString(getClass().getResourceAsStream("/com/sandec/mdfx/sample.md"), "UTF-8");
+        String mdfxTxt = IOUtils.toString(getClass().getResourceAsStream("/com/sandec/mdfx/example/sample.md"), "UTF-8");
 
         MDFXNode mdfxNode = new MDFXNode(mdfxTxt) {
             //@Override
