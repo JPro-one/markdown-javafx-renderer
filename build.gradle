@@ -5,13 +5,12 @@ buildscript {
     gradlePluginPortal()
 
     maven {
-      url "https://sandec.bintray.com/repo"
+      url "https://sandec.jfrog.io/artifactory/repo"
     }
   }
 
   dependencies {
     classpath "com.sandec.jpro:jpro-plugin-gradle:$JPRO_VERSION"
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
     classpath 'org.openjfx:javafx-plugin:0.0.9'
   }
 }
@@ -36,7 +35,6 @@ compileJava {
 
 apply plugin: 'org.openjfx.javafxplugin'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
 
 javafx {
   version = "$JAVAFX_VERSION"
@@ -64,20 +62,15 @@ publishing {
       version project.version
     }
   }
-}
-
-bintray {
-  if(project.hasProperty("BINTRAY_USER")) {
-    user = BINTRAY_USER
-    key  = BINTRAY_KEY
-  }
-  publications = ['mavenJava']
-  publish = true
-  override = true
-  pkg {
-    repo = 'repo'
-    name = project.name
-    userOrg = 'sandec'
+  repositories {
+    maven {
+      name = "artifactory"
+      url = "https://sandec.jfrog.io/artifactory/repo"
+      credentials {
+        username System.getenv("SANDEC_ARTIFACTORY_USERNAME")
+        password System.getenv("SANDEC_ARTIFACTORY_PASSWORD")
+      }
+    }
   }
 }
 
