@@ -19,7 +19,7 @@ Add the following repository:
 ```
 repositories {
     maven {
-        url "http://sandec.bintray.com/repo"
+        url "https://sandec.jfrog.io/artifactory/repo"
     }
 
 ```
@@ -67,5 +67,5 @@ Run the sample:
 
 Deploy new release:
 ```
-./gradlew :bintrayUpload
+./gradlew :publish
 ```
