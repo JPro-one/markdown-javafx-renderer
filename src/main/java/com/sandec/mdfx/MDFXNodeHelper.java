@@ -54,6 +54,9 @@ class MDFXNodeHelper extends VBox {
   int gridy = 0;
   TextFlow flow = null;
 
+  boolean isListOrdered = false;
+  int orderedListCounter = 0;
+
   int[] currentChapter = new int[6];
 
   public boolean shouldShowContent() {
@@ -221,6 +224,10 @@ class MDFXNodeHelper extends VBox {
 
 
     public void visit(ListItem listItem) {
+      System.out.println("getMarkerSuffix: " + listItem.getMarkerSuffix());
+      System.out.println("getOpeningMarker: " + listItem.getOpeningMarker());
+      System.out.println("isInTightList: " + listItem.isInTightList());
+      System.out.println("isInTightList: " + listItem.isTight());
 
       if(!shouldShowContent()) return;
 
@@ -232,7 +239,9 @@ class MDFXNodeHelper extends VBox {
       newRoot.getStyleClass().add("markdown-paragraph-list");
       newRoot.setFillWidth(true);
 
-      Label label = new Label(" • ");
+      orderedListCounter += 1;
+      String text = isListOrdered ? (" " + orderedListCounter + ". ") : " • ";
+      Label label = new Label(text);
       label.getStyleClass().add("markdown-listitem-dot");
       label.getStyleClass().add("markdown-text");
       label.setMinWidth(20);
@@ -255,7 +264,7 @@ class MDFXNodeHelper extends VBox {
     public void visit(BulletList bulletList) {
 
       if(!shouldShowContent()) return;
-
+      isListOrdered = false;
       VBox oldRoot = root;
       root = new VBox();
       oldRoot.getChildren().add(root);
@@ -266,12 +275,16 @@ class MDFXNodeHelper extends VBox {
     }
 
     public void visit(OrderedList orderedList) {
+      int previousCounter = orderedListCounter;
+      orderedListCounter = 0;
+      isListOrdered = true;
       VBox oldRoot = root;
       root = new VBox();
       oldRoot.getChildren().add(root);
       newParagraph();
       flow.getStyleClass().add("markdown-normal-flow");
       visitor.visitChildren(orderedList);
+      orderedListCounter = previousCounter;
       root = oldRoot;
     }
 
