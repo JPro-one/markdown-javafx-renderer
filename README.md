@@ -51,6 +51,9 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.0
+* Added support for ordered lists.
+* We now us the Java11 Module System. At least Java11 is now required.
 ### 0.1.9
 * Added support for strikethrough
 * It's now possible to change the link color in the css with `-mdfx-link-color`
