@@ -51,6 +51,11 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.1
+* Added support for BlockQuotes
+* Added support for TaskLists
+* Renamed MDFXNode to MarkdownView
+* Moved internal classes to an impl package
 ### 0.2.0
 * Added support for ordered lists.
 * We now us the Java11 Module System. At least Java11 is now required.

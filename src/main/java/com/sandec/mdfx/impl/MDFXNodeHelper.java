@@ -7,6 +7,8 @@ import com.vladsch.flexmark.ext.attributes.AttributesExtension;
 import com.vladsch.flexmark.ext.attributes.AttributesNode;
 import com.vladsch.flexmark.ext.gfm.strikethrough.Strikethrough;
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
+import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension;
+import com.vladsch.flexmark.ext.gfm.tasklist.TaskListItem;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -76,6 +78,7 @@ public class MDFXNodeHelper extends VBox {
     extensions.add(TablesExtension.create());
     extensions.add(AttributesExtension.create());
     extensions.add(StrikethroughExtension.create());
+    extensions.add(TaskListExtension.create());
     Parser parser = Parser.builder().extensions(extensions).build();
 
     Document node = parser.parse(mdstring);
@@ -110,6 +113,7 @@ public class MDFXNodeHelper extends VBox {
             new VisitHandler<>(ListItem.class, this::visit),
             new VisitHandler<>(BulletListItem.class, this::visit),
             new VisitHandler<>(OrderedListItem.class, this::visit),
+            new VisitHandler<>(TaskListItem.class, this::visit),
             new VisitHandler<>(BulletList.class, this::visit),
             new VisitHandler<>(OrderedList.class, this::visit),
             new VisitHandler<>(Paragraph.class, this::visit),
@@ -232,11 +236,7 @@ public class MDFXNodeHelper extends VBox {
       }
     }
 
-
-    public void visit(ListItem listItem) {
-      if(!shouldShowContent()) return;
-
-      // add new listItem
+    public void visitListItem(String text, com.vladsch.flexmark.util.ast.Node node) {
       VBox oldRoot = root;
 
       VBox newRoot = new VBox();
@@ -245,7 +245,7 @@ public class MDFXNodeHelper extends VBox {
       newRoot.setFillWidth(true);
 
       orderedListCounter += 1;
-      String text = isListOrdered ? (" " + orderedListCounter + ". ") : " • ";
+
       Label label = new Label(text);
       label.getStyleClass().add("markdown-listitem-dot");
       label.getStyleClass().add("markdown-text");
@@ -262,8 +262,22 @@ public class MDFXNodeHelper extends VBox {
 
       root = newRoot;
 
-      visitor.visitChildren(listItem);
+      visitor.visitChildren(node);
       root = oldRoot;
+    }
+
+    public void visit(TaskListItem listItem) {
+      if(!shouldShowContent()) return;
+      String text = listItem.isItemDoneMarker() ? "☑" : "☐";
+      visitListItem(text,listItem);
+    }
+
+    public void visit(ListItem listItem) {
+      if(!shouldShowContent()) return;
+
+      String text = isListOrdered ? (" " + orderedListCounter + ". ") : " • ";
+
+      visitListItem(text,listItem);
     }
 
     public void visit(BulletList bulletList) {

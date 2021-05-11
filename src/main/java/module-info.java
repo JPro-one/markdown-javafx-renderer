@@ -5,6 +5,7 @@ module com.sandec.mdfx {
     requires flexmark.ext.attributes;
     requires flexmark.ext.tables;
     requires flexmark.ext.gfm.strikethrough;
+    requires flexmark.ext.gfm.tasklist;
     requires flexmark.util;
     requires flexmark.util.ast;
     requires flexmark.util.builder;
