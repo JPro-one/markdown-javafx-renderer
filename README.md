@@ -26,7 +26,7 @@ repositories {
 Add The following dependency:
 ```
 dependencies {
-    compile "com.sandec:mdfx:0.1.8"
+    compile "com.sandec:mdfx:0.2.1"
 }
 ```
 
