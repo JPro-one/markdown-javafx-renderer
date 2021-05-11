@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 class MDFXNodeHelper extends VBox {
   String mdString;
@@ -41,7 +42,7 @@ class MDFXNodeHelper extends VBox {
 
   List<String> elemStyleClass = new LinkedList<String>();
 
-  List<ConsumerHelper<Pair<Node,String>>> elemFunctions = new LinkedList<ConsumerHelper<Pair<Node,String>>>();
+  List<Consumer<Pair<Node,String>>> elemFunctions = new LinkedList<Consumer<Pair<Node,String>>>();
 
   Boolean nodePerWord = false;
 
@@ -101,6 +102,8 @@ class MDFXNodeHelper extends VBox {
     NodeVisitor visitor = new NodeVisitor(
             //new VisitHandler<>(com.vladsch.flexmark.ast.Node.class, this::visit),
             new VisitHandler<>(Code.class, this::visit),
+            new VisitHandler<>(BlockQuote.class, this::visit),
+            //new VisitHandler<>(Quotes.class, this::visit),
             new VisitHandler<>(Block.class, this::visit),
             new VisitHandler<>(Document.class, this::visit),
             new VisitHandler<>(Emphasis.class, this::visit),
@@ -144,6 +147,19 @@ class MDFXNodeHelper extends VBox {
       flow.getChildren().add(label);
 
       //visitor.visitChildren(code);
+    }
+
+    public void visit(BlockQuote customBlock) {
+      VBox oldRoot = root;
+      root = new VBox();
+      root.getStyleClass().add("markdown-normal-block-quote");
+      oldRoot.getChildren().add(root);
+
+      System.out.println("AAAAAAAAAAA" + customBlock);
+      visitor.visitChildren(customBlock);
+
+      root = oldRoot;
+      newParagraph();
     }
 
     public void visit(Block customBlock) {
@@ -224,11 +240,6 @@ class MDFXNodeHelper extends VBox {
 
 
     public void visit(ListItem listItem) {
-      System.out.println("getMarkerSuffix: " + listItem.getMarkerSuffix());
-      System.out.println("getOpeningMarker: " + listItem.getOpeningMarker());
-      System.out.println("isInTightList: " + listItem.isInTightList());
-      System.out.println("isInTightList: " + listItem.isTight());
-
       if(!shouldShowContent()) return;
 
       // add new listItem
@@ -314,7 +325,7 @@ class MDFXNodeHelper extends VBox {
 
       LinkedList<Node> nodes = new LinkedList<>();
 
-      ConsumerHelper<Pair<Node, String>> addProp = (pair) -> {
+      Consumer<Pair<Node, String>> addProp = (pair) -> {
         Node node = pair.getKey();
         String txt = pair.getValue();
         nodes.add(node);
@@ -496,7 +507,7 @@ class MDFXNodeHelper extends VBox {
     for(String elemStyleClass: elemStyleClass) {
       toAdd.getStyleClass().add(elemStyleClass);
     };
-    for(ConsumerHelper<Pair<Node,String>> f: elemFunctions) {
+    for(Consumer<Pair<Node,String>> f: elemFunctions) {
       f.accept(new Pair(toAdd,wholeText));
     };
     if(!styles.isEmpty()) {

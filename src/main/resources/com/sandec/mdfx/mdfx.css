@@ -119,6 +119,15 @@
   -fx-padding: 8;
 }
 
+.markdown-normal-block-quote {
+  -fx-background-color: #0000ff0c;
+  -fx-background-insets: 10;
+  -fx-border-color: #4488cc;
+  -fx-border-width: 0 0 0 3;
+  -fx-border-insets: 10 10 10 10;
+  -fx-padding: 10 10 10 10;
+}
+
 /*
 .markdown-hbox1 {
   -fx-background-color: red;

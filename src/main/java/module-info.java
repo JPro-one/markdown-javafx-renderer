@@ -13,6 +13,6 @@ module com.sandec.mdfx {
     requires flexmark.util.data;
     requires flexmark.util.collection;
 
-
+    opens com.sandec.mdfx;
     exports com.sandec.mdfx;
 }
