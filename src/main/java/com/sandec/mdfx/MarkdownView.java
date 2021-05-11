@@ -1,5 +1,6 @@
 package com.sandec.mdfx;
 
+import com.sandec.mdfx.impl.MDFXNodeHelper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Group;
@@ -8,17 +9,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-public class MDFXNode extends VBox {
+public class MarkdownView extends VBox {
 
     private SimpleStringProperty mdString = new SimpleStringProperty("");
 
-    public MDFXNode(String mdString) {
+    public MarkdownView(String mdString) {
         this.mdString.set(mdString);
         this.mdString.addListener((p,o,n) -> updateContent());
         getStylesheets().add("/com/sandec/mdfx/mdfx.css");
         updateContent();
     }
-    public MDFXNode() {
+    public MarkdownView() {
         this("");
     }
 

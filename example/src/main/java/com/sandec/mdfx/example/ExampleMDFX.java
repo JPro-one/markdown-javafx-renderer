@@ -1,18 +1,14 @@
 package com.sandec.mdfx.example;
 
-import com.sandec.mdfx.MDFXNode;
+import com.sandec.mdfx.MarkdownView;
 import javafx.application.Application;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.commons.io.IOUtils;
 
@@ -25,7 +21,7 @@ public class ExampleMDFX extends Application {
 
         String mdfxTxt = IOUtils.toString(getClass().getResourceAsStream("/com/sandec/mdfx/example/sample.md"), "UTF-8");
 
-        MDFXNode mdfxNode = new MDFXNode(mdfxTxt) {
+        MarkdownView markdownView = new MarkdownView(mdfxTxt) {
             //@Override
             //public boolean showChapter(int[] currentChapter) {
             //    return currentChapter[1] == 1;
@@ -53,10 +49,10 @@ public class ExampleMDFX extends Application {
 
         TextArea textArea = new TextArea(mdfxTxt);
 
-        mdfxNode.mdStringProperty().bind(textArea.textProperty());
-        mdfxNode.getStylesheets().add("/com/sandec/mdfx/example/mdfx-sample.css");
+        markdownView.mdStringProperty().bind(textArea.textProperty());
+        markdownView.getStylesheets().add("/com/sandec/mdfx/example/mdfx-sample.css");
 
-        ScrollPane content = new ScrollPane(mdfxNode);
+        ScrollPane content = new ScrollPane(markdownView);
 
         content.setFitToWidth(true);
 

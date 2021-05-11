@@ -1,10 +1,10 @@
-package com.sandec.mdfx;
+package com.sandec.mdfx.impl;
 
+import com.sandec.mdfx.MarkdownView;
 import com.vladsch.flexmark.ast.*;
 import com.vladsch.flexmark.ext.attributes.AttributeNode;
 import com.vladsch.flexmark.ext.attributes.AttributesExtension;
 import com.vladsch.flexmark.ext.attributes.AttributesNode;
-import com.vladsch.flexmark.ext.attributes.internal.AttributesNodePostProcessor;
 import com.vladsch.flexmark.ext.gfm.strikethrough.Strikethrough;
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension;
 import javafx.application.Platform;
@@ -13,28 +13,23 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Pair;
 import com.vladsch.flexmark.util.ast.*;
-import com.vladsch.flexmark.util.builder.*;
 import com.vladsch.flexmark.ext.tables.*;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.misc.Extension;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
-class MDFXNodeHelper extends VBox {
+public class MDFXNodeHelper extends VBox {
   String mdString;
 
-  MDFXNode parent;
+  MarkdownView parent;
 
   final static String ITALICE_CLASS_NAME = "markdown-italic";
   final static String BOLD_CLASS_NAME = "markdown-bold";
@@ -71,7 +66,7 @@ class MDFXNodeHelper extends VBox {
     flow = newFlow;
   }
 
-  public MDFXNodeHelper(MDFXNode parent, String mdstring) {
+  public MDFXNodeHelper(MarkdownView parent, String mdstring) {
     this.parent = parent;
 
     root.getStyleClass().add("markdown-paragraph-list");
@@ -155,7 +150,6 @@ class MDFXNodeHelper extends VBox {
       root.getStyleClass().add("markdown-normal-block-quote");
       oldRoot.getChildren().add(root);
 
-      System.out.println("AAAAAAAAAAA" + customBlock);
       visitor.visitChildren(customBlock);
 
       root = oldRoot;

@@ -32,9 +32,9 @@ dependencies {
 
 Usage:
 ```
-import com.sandec.mdfx.MDFXNode;
+import com.sandec.mdfx.MarkdownView;
 
-MDFXNode mdfx = new MDFXNode("your-markdown");
+MDFXNode mdfx = new MarkdownView("your-markdown");
 content.getStylesheets().add("/com/sandec/mdfx/mdfx-default.css");
 ```
 
