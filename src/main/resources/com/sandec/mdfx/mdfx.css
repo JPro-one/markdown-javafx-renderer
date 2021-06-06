@@ -120,9 +120,9 @@
 }
 
 .markdown-normal-block-quote {
-  -fx-background-color: #0000ff0c;
+  -fx-background-color: -mdfx-bc-color-background;
   -fx-background-insets: 10;
-  -fx-border-color: #4488cc;
+  -fx-border-color: -mdfx-bc-color-border;
   -fx-border-width: 0 0 0 3;
   -fx-border-insets: 10 10 10 10;
   -fx-padding: 10 10 10 10;

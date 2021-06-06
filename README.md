@@ -51,6 +51,9 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.2
+* The blockquote is now configured with the css variables `-mdfx-bc-color-border` and `-mdfx-bc-color-border`. Users might want to add these variables to their css. 
+* Ordered lists start now with 1 instead of 0.
 ### 0.2.1
 * Added support for BlockQuotes
 * Added support for TaskLists
