@@ -6,8 +6,8 @@
    -mdfx-bg-color-2: #ddd;
    -mdfx-bg-color-3: #eee;
 
-   -mdfx-bc-color-border: #4488cc; /* the blockquote's border color */
-   -mdfx-bc-color-background: #0000ff0c; /* the blockquote's background color */
+   -mdfx-bq-color-border: #4488cc; /* the blockquote's border color */
+   -mdfx-bq-color-background: #0000ff0c; /* the blockquote's background color */
 }
 
 .markdown-text {
