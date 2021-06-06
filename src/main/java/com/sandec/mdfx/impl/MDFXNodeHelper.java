@@ -275,7 +275,7 @@ public class MDFXNodeHelper extends VBox {
     public void visit(ListItem listItem) {
       if(!shouldShowContent()) return;
 
-      String text = isListOrdered ? (" " + orderedListCounter + ". ") : " • ";
+      String text = isListOrdered ? (" " + (orderedListCounter+1) + ". ") : " • ";
 
       visitListItem(text,listItem);
     }
