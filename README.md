@@ -34,7 +34,7 @@ Usage:
 ```
 import com.sandec.mdfx.MarkdownView;
 
-MDFXNode mdfx = new MarkdownView("your-markdown");
+MarkdownView mdfx = new MarkdownView("your-markdown");
 content.getStylesheets().add("/com/sandec/mdfx/mdfx-default.css");
 ```
 
