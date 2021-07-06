@@ -249,7 +249,7 @@ public class MDFXNodeHelper extends VBox {
       Label label = new Label(text);
       label.getStyleClass().add("markdown-listitem-dot");
       label.getStyleClass().add("markdown-text");
-      label.setMinWidth(20);
+      label.setMinWidth(Region.USE_PREF_SIZE);
 
       HBox hbox = new HBox();
       hbox.getStyleClass().add("markdown-hbox1");
