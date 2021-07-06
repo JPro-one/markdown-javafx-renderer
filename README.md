@@ -26,7 +26,7 @@ repositories {
 Add The following dependency:
 ```
 dependencies {
-    compile "com.sandec:mdfx:0.2.3"
+    compile "com.sandec:mdfx:0.2.4"
 }
 ```
 
@@ -51,6 +51,8 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.4
+* Fixed an layouting issue with lists. In some situations "..." was shown for left label counting the entries.
 ### 0.2.3
 * The blockquote is now configured with the css variables `-mdfx-bq-color-border` and `-mdfx-bq-color-border`. Users might want to add these variables to their css. 
 * Ordered lists start now with 1 instead of 0.
