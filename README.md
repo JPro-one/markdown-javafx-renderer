@@ -21,7 +21,7 @@ repositories {
     maven {
         url "https://sandec.jfrog.io/artifactory/repo"
     }
-
+}
 ```
 Add The following dependency:
 ```
