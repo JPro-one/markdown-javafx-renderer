@@ -1,7 +1,7 @@
 # markdown-javafx-renderer
 
-[![JPro supported](https://img.shields.io/badge/JPro-supported-brightgreen.svg)](https://www.jpro.one/)
-
+[![JPro supported](https://img.shields.io/badge/JPro-supported-brightgreen.svg)](https://www.jpro.one/) 
+[![JFX-Central](https://img.shields.io/badge/jfxcentral-mdfx-brightgreen.svg)](https://www.jfx-central.com/libraries/mdfx) 
 [![Build Status](https://travis-ci.org/JPro-one/markdown-javafx-renderer.svg?branch=master)](https://travis-ci.org/JPro-one/markdown-javafx-renderer)
 
 MDFX is a simple markdown-renderer for JavaFX.
