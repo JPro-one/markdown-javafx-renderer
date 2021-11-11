@@ -283,6 +283,8 @@ public class MDFXNodeHelper extends VBox {
     public void visit(BulletList bulletList) {
 
       if(!shouldShowContent()) return;
+      boolean prevIsListOrdered = isListOrdered;
+      int prevListCounter = orderedListCounter;
       isListOrdered = false;
       VBox oldRoot = root;
       root = new VBox();
@@ -290,11 +292,15 @@ public class MDFXNodeHelper extends VBox {
       newParagraph();
       flow.getStyleClass().add("markdown-normal-flow");
       visitor.visitChildren(bulletList);
+      isListOrdered = prevIsListOrdered;
+      orderedListCounter = prevListCounter;
       root = oldRoot;
     }
 
     public void visit(OrderedList orderedList) {
       int previousCounter = orderedListCounter;
+      boolean prevIsListOrdered = isListOrdered;
+      int prevListCounter = orderedListCounter;
       orderedListCounter = 0;
       isListOrdered = true;
       VBox oldRoot = root;
@@ -304,6 +310,8 @@ public class MDFXNodeHelper extends VBox {
       flow.getStyleClass().add("markdown-normal-flow");
       visitor.visitChildren(orderedList);
       orderedListCounter = previousCounter;
+      isListOrdered = prevIsListOrdered;
+      orderedListCounter = prevListCounter;
       root = oldRoot;
     }
 

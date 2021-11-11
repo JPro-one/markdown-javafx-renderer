@@ -10,13 +10,13 @@
  * first
  * second
 
-1. First item
-2. Second item
-3. Third item
-1. asdf
- 1. asdf
- 3. asdf
-1.
+ASDF
+1. TEXT
+   - TEXT
+   - TEXT
+2. TEXT
+3. Another Text
+4. More Text!
 
 > block
 > Quote

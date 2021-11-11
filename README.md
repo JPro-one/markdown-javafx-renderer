@@ -51,6 +51,8 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.5 (11. November 2021)
+* Fixed an bug with nested Sorted/Unsorted lists.
 ### 0.2.4
 * Fixed an layouting issue with lists. In some situations "..." was shown for left label counting the entries.
 ### 0.2.3
