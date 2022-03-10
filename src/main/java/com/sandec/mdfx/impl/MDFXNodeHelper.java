@@ -130,7 +130,7 @@ public class MDFXNodeHelper extends VBox {
 
     public void visit(Code code) {
 
-      Label label = new Label(code.getText().normalizeEndWithEOL());
+      Label label = new Label(code.getText().normalizeEOL());
       label.getStyleClass().add("markdown-code");
 
       Region bgr1 = new Region();
@@ -347,7 +347,7 @@ public class MDFXNodeHelper extends VBox {
         nodes.add(node);
 
         node.getStyleClass().add("markdown-link");
-        parent.setLink(node, link.getUrl().normalizeEndWithEOL(), txt);
+        parent.setLink(node, link.getUrl().normalizeEOL(), txt);
       };
       Platform.runLater(() -> {
         BooleanProperty lastValue = new SimpleBooleanProperty(false);
