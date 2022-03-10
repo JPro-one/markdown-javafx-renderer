@@ -51,7 +51,7 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
-### 0.2.6 (To be released)
+### 0.2.6 (10. March 2022)
 * Fixed Newline character in links.
 ### 0.2.5 (11. November 2021)
 * Fixed an bug with nested Sorted/Unsorted lists.
