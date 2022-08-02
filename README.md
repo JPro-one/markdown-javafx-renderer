@@ -51,6 +51,8 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.7 (10. March 2022)
+* Updated Flexmark to 0.64
 ### 0.2.6 (10. March 2022)
 * Fixed Newline character in links.
 ### 0.2.5 (11. November 2021)
@@ -61,7 +63,7 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 * The blockquote is now configured with the css variables `-mdfx-bq-color-border` and `-mdfx-bq-color-border`. Users might want to add these variables to their css. 
 * Ordered lists start now with 1 instead of 0.
 ### 0.2.2
-<skip this version>
+* -- skip this version --
 ### 0.2.1
 * Added support for BlockQuotes
 * Added support for TaskLists
