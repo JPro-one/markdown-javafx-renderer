@@ -14,6 +14,10 @@ import org.apache.commons.io.IOUtils;
 
 public class ExampleMDFX extends Application {
 
+    public void main(String[] args) {
+        launch(ExampleMDFX.class, args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
