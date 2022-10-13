@@ -26,7 +26,7 @@ repositories {
 Add The following dependency:
 ```
 dependencies {
-    compile "com.sandec:mdfx:0.2.4"
+    compile "com.sandec:mdfx:0.2.8"
 }
 ```
 
@@ -51,6 +51,8 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.8 (13. October 2022)
+* Changed JavaFX Dependencie to be compile only.
 ### 0.2.7 (10. March 2022)
 * Updated Flexmark to 0.64
 ### 0.2.6 (10. March 2022)

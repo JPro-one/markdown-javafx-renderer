@@ -37,6 +37,7 @@ apply plugin: 'org.openjfx.javafxplugin'
 apply plugin: 'maven-publish'
 
 javafx {
+   configuration = "compileOnly"
   version = "$JAVAFX_VERSION"
   modules = [ 'javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.web' ]
 }
