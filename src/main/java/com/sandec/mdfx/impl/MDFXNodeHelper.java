@@ -400,7 +400,23 @@ public class MDFXNodeHelper extends VBox {
 
       String[] textsSplitted = null;
       if (nodePerWord) {
-        textsSplitted = text.getChars().normalizeEOL().split(" ");
+        // split with " " but keep the " " in the array
+        textsSplitted = text.getChars().normalizeEOL().split("(?<= )");
+        // Combine splitted texts, which only contain a space:
+        for(int i = 0; i <= textsSplitted.length - 1; i+=1) {
+          if (textsSplitted[i].equals(" ")) {
+            if(i == 0) {
+              // add to next one, is possible
+              if(i+1 <= textsSplitted.length - 1) {
+                textsSplitted[i+1] = " " + textsSplitted[i+1];
+                textsSplitted[i] = "";
+              }
+            } else {
+              textsSplitted[i-1] = textsSplitted[i-1] + textsSplitted[i];
+              textsSplitted[i] = "";
+            }
+          }
+        }
       } else {
         textsSplitted = new String[1];
         textsSplitted[0] = text.getChars().normalizeEOL();
@@ -408,10 +424,8 @@ public class MDFXNodeHelper extends VBox {
       final String[] textsSplittedFinal = textsSplitted;
 
       for(int i = 0; i <= textsSplitted.length - 1; i+=1) {
-        if (i == 0) {
+        if(!textsSplittedFinal[i].equals("")) {
           addText(textsSplittedFinal[i], wholeText);
-        } else {
-          addText(" " + textsSplittedFinal[i], wholeText);
         }
       }
     }

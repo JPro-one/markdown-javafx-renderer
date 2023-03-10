@@ -51,6 +51,8 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.9
+* Fixed an issue, which caused that sometimes a whitespace was missing in links.
 ### 0.2.8 (13. October 2022)
 * Changed JavaFX Dependencie to be compile only.
 ### 0.2.7 (10. March 2022)
