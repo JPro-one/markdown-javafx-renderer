@@ -49,16 +49,12 @@ dependencies {
   implementation "com.vladsch.flexmark:flexmark-ext-attributes:$FLEXMARK_VERSION"
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-  classifier = 'sources'
-  from sourceSets.main.allSource
-}
+java.withSourcesJar()
 
 publishing {
   publications {
     mavenJava(MavenPublication) {
       from components.java
-      artifact sourcesJar
       groupId project.group
       artifactId "mdfx"
       version project.version
@@ -88,7 +84,7 @@ configure([project(':example')]) {
 
   javafx {
     version = "$JAVAFX_VERSION"
-    modules = [ 'javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.web' ]
+    modules = [ 'javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.web' , 'javafx.swing']
   }
 
   dependencies {
