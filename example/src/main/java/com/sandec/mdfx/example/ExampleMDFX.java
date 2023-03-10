@@ -14,7 +14,7 @@ import org.apache.commons.io.IOUtils;
 
 public class ExampleMDFX extends Application {
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         launch(ExampleMDFX.class, args);
     }
 
