@@ -10,7 +10,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.sandec.jpro:jpro-plugin-gradle:$JPRO_VERSION"
+    classpath "one.jpro:jpro-gradle-plugin:$JPRO_VERSION"
     classpath 'org.openjfx:javafx-plugin:0.0.13'
   }
 }
@@ -76,7 +76,7 @@ configure([project(':example')]) {
   apply plugin: 'java'
   apply plugin: 'application'
   apply plugin: 'org.openjfx.javafxplugin'
-  apply plugin: 'com.sandec.jpro'
+  apply plugin: 'jpro-gradle-plugin'
 
   repositories {
     jcenter()

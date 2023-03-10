@@ -59,6 +59,7 @@ public class ExampleMDFX extends Application {
         ScrollPane content = new ScrollPane(markdownView);
 
         content.setFitToWidth(true);
+        javafx.scene.layout.HBox.setHgrow(content, javafx.scene.layout.Priority.ALWAYS);
 
         textArea.setMinWidth(350);
         HBox root = new HBox(textArea,content);
