@@ -1,5 +1,6 @@
 package com.sandec.mdfx;
 
+import com.sandec.mdfx.impl.AdaptiveImage;
 import com.sandec.mdfx.impl.MDFXNodeHelper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -7,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MarkdownView extends VBox {
