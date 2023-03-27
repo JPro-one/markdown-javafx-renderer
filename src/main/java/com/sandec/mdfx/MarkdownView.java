@@ -59,17 +59,6 @@ public class MarkdownView extends VBox {
             Image img = new Image(url, false);
             AdaptiveImage r = new AdaptiveImage(img);
 
-            // The StackPane is just a workaround.
-            // Otherwise the TextFlow doesn't get rendered properly, when the image is loaded.
-            StackPane p = new StackPane();
-
-            img.widthProperty().addListener((p1,o,n) -> {
-                if(n.intValue() > 0) {
-                    p.getChildren().clear();
-                    p.getChildren().add(r);
-                }
-            });
-
             // The TextFlow does not limit the width of it's node based on the available width
             // As a workaround, we bind to the width of the MarkDownView.
             r.maxWidthProperty().bind(widthProperty());

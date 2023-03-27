@@ -26,7 +26,7 @@ repositories {
 Add The following dependency:
 ```
 dependencies {
-    compile "com.sandec:mdfx:0.2.10"
+    compile "com.sandec:mdfx:0.2.11"
 }
 ```
 
@@ -51,6 +51,8 @@ Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css
 
 ## Changelog
 
+### 0.2.11
+* Fixed wrong layouting of the Image.
 ### 0.2.10
 * Added a new default implementation for Images.
 The images no longer expand outside of the viewport.

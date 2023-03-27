@@ -68,6 +68,12 @@ public class AdaptiveImage extends Pane {
         return img.getWidth();
     }
 
+
+    @Override
+    public double getBaselineOffset() {
+        return 30;
+    }
+
     private BackgroundSize getBackgroundImagePosition() {
         return new BackgroundSize(1.0,1.0, true, true, true, false);
     }
