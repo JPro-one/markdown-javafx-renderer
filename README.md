@@ -26,7 +26,7 @@ repositories {
 Add The following dependency:
 ```
 dependencies {
-    compile "com.sandec:mdfx:0.2.11"
+    compile "com.sandec:mdfx:0.2.12"
 }
 ```
 
@@ -35,7 +35,6 @@ Usage:
 import com.sandec.mdfx.MarkdownView;
 
 MarkdownView mdfx = new MarkdownView("your-markdown");
-content.getStylesheets().add("/com/sandec/mdfx/mdfx-default.css");
 ```
 
 Simple Application:
@@ -47,10 +46,19 @@ Feature Overview:
 
 You can personalize the looking of your markdown via css.
 [Minimal default-file](https://github.com/jpro-one/markdown-javafx-renderer/blob/master/src/main/resources/com/sandec/mdfx/mdfx-default.css)
-Instead of using `/com/sandec/mdfx/mdfx-default.css` you can create your own css-file, to personalize the looking of your markdown-code.
+To use your own css, you have to overwrite the `getDefaultStylehsheets`.
+```java
+protected List<String> getDefaultStylehsheets() {
+    return List.of("/your-css.css");
+}
+```
+Alternatively, you can also return an empty list, and add your css via the `getStylesheets` of the Scene.
+
 
 ## Changelog
 
+### 0.2.12 (28. March 2021)
+* It's no longer necessary to add the default-css. You can add your own css via `getDefaultStylehsheets`.
 ### 0.2.11
 * Fixed wrong layouting of the Image.
 ### 0.2.10

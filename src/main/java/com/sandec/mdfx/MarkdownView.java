@@ -7,9 +7,8 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import java.util.List;
 
 public class MarkdownView extends VBox {
 
@@ -19,10 +18,15 @@ public class MarkdownView extends VBox {
         this.mdString.set(mdString);
         this.mdString.addListener((p,o,n) -> updateContent());
         getStylesheets().add("/com/sandec/mdfx/mdfx.css");
+        getDefaultStylesheets().forEach(s -> getStylesheets().add(s));
         updateContent();
     }
     public MarkdownView() {
         this("");
+    }
+
+    protected List<String> getDefaultStylesheets() {
+        return List.of("/com/sandec/mdfx/mdfx-default.css");
     }
 
     private void updateContent() {

@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.apache.commons.io.IOUtils;
+import java.util.List;
 
 public class ExampleMDFX extends Application {
 
@@ -26,11 +27,10 @@ public class ExampleMDFX extends Application {
         String mdfxTxt = IOUtils.toString(getClass().getResourceAsStream("/com/sandec/mdfx/example/sample.md"), "UTF-8");
 
         MarkdownView markdownView = new MarkdownView(mdfxTxt) {
-            //@Override
-            //public boolean showChapter(int[] currentChapter) {
-            //    return currentChapter[1] == 1;
-            //}
-
+            @Override
+            protected List<String> getDefaultStylesheets() {
+                return List.of("/com/sandec/mdfx/example/mdfx-sample.css");
+            }
 
             @Override
             public void setLink(Node node, String link, String description) {
