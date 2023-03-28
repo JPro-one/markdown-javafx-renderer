@@ -57,7 +57,7 @@ Alternatively, you can also return an empty list, and add your css via the `getS
 
 ## Changelog
 
-### 0.2.12 (28. March 2021)
+### 0.2.12 (28. March 2023)
 * It's no longer necessary to add the default-css. You can add your own css via `getDefaultStylehsheets`.
 ### 0.2.11
 * Fixed wrong layouting of the Image.
