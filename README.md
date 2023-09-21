@@ -1,4 +1,6 @@
-# markdown-javafx-renderer
+# [MDFX](https://github.com/JPro-one/jpro-routing) has moved to [JPro Platform](https://github.com/JPro-one/jpro-platform)!
+
+🚨 **IMPORTANT NOTICE:** This repository has been relocated. All the content, issues, and activity have been transferred to our new repository.
 
 [![JPro supported](https://img.shields.io/badge/JPro-supported-brightgreen.svg)](https://www.jpro.one/) 
 [![JFX-Central](https://img.shields.io/badge/jfxcentral-mdfx-brightgreen.svg)](https://www.jfx-central.com/libraries/mdfx) 
