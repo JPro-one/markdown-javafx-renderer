@@ -2,6 +2,11 @@
 
 🚨 **IMPORTANT NOTICE:** This repository has been relocated. All the content, issues, and activity have been transferred to our new repository.
 
+## Why did we move?
+We've decided to consolidate our repositories into a single one to better manage and streamline our projects.
+This will allow us to better prioritize and address issues and pull requests, as well as to release new versions faster.
+___
+
 [![JPro supported](https://img.shields.io/badge/JPro-supported-brightgreen.svg)](https://www.jpro.one/) 
 [![JFX-Central](https://img.shields.io/badge/jfxcentral-mdfx-brightgreen.svg)](https://www.jfx-central.com/libraries/mdfx) 
 [![Build Status](https://travis-ci.org/JPro-one/markdown-javafx-renderer.svg?branch=master)](https://travis-ci.org/JPro-one/markdown-javafx-renderer)
